@@ -82,5 +82,5 @@ loadText('texts/filler.txt', '#data-requirements', addButton);
 loadText('texts/filler.txt', '#wire-frames');
 loadText('texts/filler.txt', '#wire-frames', addButton);
 loadText('texts/real-world.txt', '#real-world', addButton);
-loadText('texts/filler.txt', '#integrative-experience', addButton);
+loadText('texts/integrative-experience.txt', '#integrative-experience', addButton);
 
