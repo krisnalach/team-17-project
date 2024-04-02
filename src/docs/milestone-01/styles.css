@@ -11,10 +11,10 @@
     padding: 5px;
 }
 
-.grid-card img {
+div.grid-card > img {
     max-width: 100%;
 }
 
-.grid-card p {
+div.grid-card > p {
     margin-bottom: 10px;
 }
