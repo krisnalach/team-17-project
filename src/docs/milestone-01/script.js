@@ -15,7 +15,8 @@ function loadText(pathToFile, elemId, callback) {
         .then(response => response.text())
         .then(data => {
             const text = document.createElement('p');
-            text.innerHTML = data;
+            text.textContent = data;
+            text.style.whiteSpace = 'pre-wrap';
             document.querySelector(elemId).appendChild(text);
             callback(elemId);
         })
@@ -57,12 +58,21 @@ function addButton(elemId) {
     el.appendChild(button);
 }
 
-// Load text into DOM elements
-loadText('texts/bio_1.txt', '#bio1', console.log);
+// Load group information into DOM elements
+loadText('texts/filler.txt', '#lach-role', console.log);
+loadText('texts/lach-bio.txt', '#lach-bio', console.log);
+loadText('texts/filler.txt', '#lustgarten-role', console.log);
+loadText('texts/lustgarten-bio.txt', '#lustgarten-bio', console.log);
+loadText('texts/filler.txt', '#lee-role', console.log);
+loadText('texts/filler.txt', '#lee-bio', console.log);
+loadText('texts/filler.txt', '#li-role', console.log);
+loadText('texts/filler.txt', '#li-bio', console.log);
+
+// Load writing segments into DOM elements
 loadText('texts/filler.txt', '#overview', addButton);
 loadText('texts/filler.txt', '#application-parts', addButton);
 loadText('texts/filler.txt', '#data-requirements', addButton);
 loadText('texts/filler.txt', '#wire-frames', addButton);
-loadText('texts/filler.txt', '#real-world', addButton);
+loadText('texts/real-world.txt', '#real-world', addButton);
 loadText('texts/filler.txt', '#integrative-experience', addButton);
 
