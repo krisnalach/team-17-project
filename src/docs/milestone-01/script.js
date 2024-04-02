@@ -23,13 +23,13 @@ function loadText(pathToFile, elemId, callback) {
         .catch(error => console.error('Error occurred: ', error));
 }
 /**
- * Grab an element by its tag and read the text inside of it to get word counts
+ * Determine the word count of an element's inner text property
  * 
- * @param {*} elemId - the ID of the DOM element to read text data from, as a string
+ * @param {*} elem - the element itself
  * @returns The word count of the inner text of a DOM element
  */
-function getWordCount(elemId) {
-    const text = document.querySelector(elemId).innerText.split(/\s+/);
+function getWordCount(elem) {
+    const text = elem.innerText.split(/\s+/);
     return text.filter(word => word !== '').length;
 }
 
@@ -43,16 +43,23 @@ function addButton(elemId) {
     let el = document.querySelector(elemId);
     let button = document.createElement('button');
     button.innerText = 'Show Word Count';
-
+    
     // Add event listener to show word count
     button.addEventListener('click', function(event) {
-        // Remove siblings beforehand
+        // Remove next sibling beforehand to avoid multiple word count displays
         if (button.nextSibling) {
             button.parentNode.removeChild(button.nextSibling);
         }
         // Create new element containing word count and append
         let display = document.createElement('div');
-        display.innerHTML = getWordCount(elemId + ' p');
+        let count = 0;
+        // Get word count for all child 'p' elements
+        for (let child of el.children) {
+            if (child.tagName.toLowerCase() === 'p') {
+                count += getWordCount(child);
+            }
+        }
+        display.innerHTML = count;
         el.appendChild(display);
     });
     el.appendChild(button);
@@ -72,6 +79,7 @@ loadText('texts/filler.txt', '#li-bio', console.log);
 loadText('texts/filler.txt', '#overview', addButton);
 loadText('texts/filler.txt', '#application-parts', addButton);
 loadText('texts/filler.txt', '#data-requirements', addButton);
+loadText('texts/filler.txt', '#wire-frames', console.log);
 loadText('texts/filler.txt', '#wire-frames', addButton);
 loadText('texts/real-world.txt', '#real-world', addButton);
 loadText('texts/filler.txt', '#integrative-experience', addButton);
