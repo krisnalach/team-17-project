@@ -42,4 +42,17 @@ div.grid-card > p {
 
 h2 {
     color: darkred;
+    padding-top: 10px;
+    text-align: center;
+}
+
+button {
+    text-align: center;
+    display: block;
+}
+
+footer {
+    padding-top: 50px;
+    text-align: center;
+    color: gray;
 }
