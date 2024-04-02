@@ -10,7 +10,7 @@
  * @param {*} elemId - the ID of the DOM element to render text into, as a string
  * @param {#} callback - function to execute after text has been loaded
  */
-function loadText(pathToFile, elemId, callback) {
+function loadText(pathToFile, elemId, callback = () => {}) {
     fetch(pathToFile)
         .then(response => response.text())
         .then(data => {
@@ -66,20 +66,20 @@ function addButton(elemId) {
 }
 
 // Load group information into DOM elements
-loadText('texts/filler.txt', '#lach-role', console.log);
-loadText('texts/lach-bio.txt', '#lach-bio', console.log);
-loadText('texts/filler.txt', '#lustgarten-role', console.log);
-loadText('texts/lustgarten-bio.txt', '#lustgarten-bio', console.log);
-loadText('texts/filler.txt', '#lee-role', console.log);
-loadText('texts/filler.txt', '#lee-bio', console.log);
-loadText('texts/filler.txt', '#li-role', console.log);
-loadText('texts/filler.txt', '#li-bio', console.log);
+loadText('texts/filler.txt', '#lach-role');
+loadText('texts/lach-bio.txt', '#lach-bio');
+loadText('texts/filler.txt', '#lustgarten-role');
+loadText('texts/lustgarten-bio.txt', '#lustgarten-bio');
+loadText('texts/filler.txt', '#lee-role');
+loadText('texts/filler.txt', '#lee-bio');
+loadText('texts/filler.txt', '#li-role');
+loadText('texts/filler.txt', '#li-bio');
 
 // Load writing segments into DOM elements
 loadText('texts/filler.txt', '#overview', addButton);
 loadText('texts/filler.txt', '#application-parts', addButton);
 loadText('texts/filler.txt', '#data-requirements', addButton);
-loadText('texts/filler.txt', '#wire-frames', console.log);
+loadText('texts/filler.txt', '#wire-frames');
 loadText('texts/filler.txt', '#wire-frames', addButton);
 loadText('texts/real-world.txt', '#real-world', addButton);
 loadText('texts/filler.txt', '#integrative-experience', addButton);
