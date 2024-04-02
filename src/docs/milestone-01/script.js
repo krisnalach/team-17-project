@@ -1,6 +1,11 @@
 'use strict'; 
 
 /**
+ * Find an element by tag, grab a text file, add text from that file
+ * into the element as a <p> child. Callback function is for adding buttons
+ * to read info about <p>, as DOM elements are loaded before the fetch request
+ * is finished
+ * 
  * @param {*} pathToFile - relative path to text file, including file itself
  * @param {*} elemId - the ID of the DOM element to render text into, as a string
  * @param {#} callback - function to execute after text has been loaded
@@ -17,6 +22,8 @@ function loadText(pathToFile, elemId, callback) {
         .catch(error => console.error('Error occurred: ', error));
 }
 /**
+ * Grab an element by its tag and read the text inside of it to get word counts
+ * 
  * @param {*} elemId - the ID of the DOM element to read text data from, as a string
  * @returns The word count of the inner text of a DOM element
  */
@@ -26,6 +33,9 @@ function getWordCount(elemId) {
 }
 
 /**
+ * Add a button to an element by its tag, with the purpose of displaying
+ * word count. Future work -> passing in any event (?)
+ * 
  * @param {*} elemId - the ID of the DOM element to add a word count button to
  */
 function addButton(elemId) {
