@@ -78,7 +78,7 @@ loadText("texts/filler.txt", "#li-bio");
 // Load writing segments into DOM elements
 loadText('texts/filler.txt', '#overview', addButton);
 loadText('texts/filler.txt', '#application-parts', addButton);
-loadText('texts/filler.txt', '#data-requirements', addButton);
+loadText('texts/data-reqs.txt', '#data-requirements', addButton);
 loadText('texts/filler.txt', '#wire-frames');
 loadText('texts/filler.txt', '#wire-frames', addButton);
 loadText('texts/real-world.txt', '#real-world', addButton);
