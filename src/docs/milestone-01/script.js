@@ -58,6 +58,11 @@ function addButton(elemId) {
       if (child.tagName.toLowerCase() === "p") {
         count += getWordCount(child);
       }
+      for (let subchild of child.children) {
+        if (subchild && subchild.tagName.toLowerCase() === "p") {
+          count += getWordCount(subchild);
+        }
+      }
     }
     display.innerHTML = count;
     el.appendChild(display);
@@ -65,21 +70,30 @@ function addButton(elemId) {
   el.appendChild(button);
 }
 
+/**
+ *
+ */
+function addPhoto(pathToPhoto) {
+  fetch(pathToPhoto).then();
+}
+
 // Load group information into DOM elements
-loadText("texts/filler.txt", "#lach-role");
 loadText("texts/lach-bio.txt", "#lach-bio");
 loadText("texts/lustgarten-bio.txt", "#lustgarten-bio");
-loadText("texts/filler.txt", "#lee-role");
-loadText("texts/filler.txt", "#lee-bio");
-loadText("texts/li-bio.txt", "#li-role");
-loadText("texts/filler.txt", "#li-bio");
+loadText("texts/lee-bio.txt", "#lee-bio");
+loadText("texts/li-bio.txt", "#li-bio");
 
 // Load writing segments into DOM elements
-loadText('texts/overview.txt', '#overview', addButton);
-loadText('texts/application-parts.txt', '#application-parts', addButton);
-loadText('texts/data-reqs.txt', '#data-requirements', addButton);
-loadText('texts/filler.txt', '#wire-frames');
-loadText('texts/filler.txt', '#wire-frames', addButton);
-loadText('texts/real-world.txt', '#real-world', addButton);
-loadText('texts/integrative-experience.txt', '#integrative-experience', addButton);
-
+loadText("texts/overview.txt", "#overview", addButton);
+loadText("texts/application-parts.txt", "#application-parts", addButton);
+loadText("texts/data-reqs.txt", "#data-requirements", addButton);
+loadText("texts/title-screen.txt", "#title-screen");
+loadText("texts/main-screen.txt", "#main-screen");
+loadText("texts/instructions.txt", "#instructions");
+loadText("texts/leaderboard.txt", "#wire-frames", addButton);
+loadText("texts/real-world.txt", "#real-world", addButton);
+loadText(
+  "texts/integrative-experience.txt",
+  "#integrative-experience",
+  addButton,
+);

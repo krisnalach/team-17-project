@@ -1,0 +1,1 @@
+This is the title screen that shows up upon launch. Click on the screen to start a game. Could put a button leading to the menu screen to show directions. 

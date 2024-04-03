@@ -1,0 +1,1 @@
+A menu you can click onto on the main screen where a pop up appears. On the pop up will be a detailed instructions part, as well as some buttons for things like settings and accessibility. There will also be an exit button to return to the main game screen.

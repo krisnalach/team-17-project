@@ -1,0 +1,1 @@
+This is a leaderboard screen that you can click into from another button on the main game screen. The leaderboard screen will show the players in order of score, as well as an exit button to return to the game.

@@ -1,0 +1,1 @@
+This is the main game screen, where you actually interact with the game and play. There are the dealer’s cards for players to see, as well as spots for all players. The circles are where each player's cards will go.There is a bottom bar for action keys as well as setting and a score counter. 
