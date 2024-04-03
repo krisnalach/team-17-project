@@ -1,7 +1,5 @@
 ﻿The Blackjack table is where all gameplay happens. This is the main interaction point for the user as they play against the computer controlled dealer. The change in gameplay that makes this different from regular Blackjack is the use of lives for the player. A player bets their lives instead of chips or money and gains points are awarded when hands are won. The central playing field has room for other players to allow for multiplayer. On the server side, players will be dealt cards based on the server tracking what cards have been played and not.
 
-
 The Leaderboard acts as another point of player contact. Players can compete for a top spot on the leaderboard. Points are awarded based on the number of hands won and the streak that they are on. 
-
 
 Tutorial+help page will help new players understand the rules of blackjack and the specific rule set that we have put on this game. This uses standard rules that players would be familiar with like the dealer holding on 17 or things like doubling down and splitting cards. Doubling down and splitting requires the player to use double the amount of lives. To avoid counting cards, we will reshuffle used cards when it reaches a certain threshold.
