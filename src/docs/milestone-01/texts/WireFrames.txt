@@ -1,0 +1,12 @@
+﻿This is the title screen that shows up upon launch. Click on the screen to start a game. Could put a button leading to the menu screen to show directions. 
+
+
+This is the main game screen, where you actually interact with the game and play. There are the dealer’s cards for players to see, as well as spots for all players. The circles are where each player's cards will go.There is a bottom bar for action keys as well as setting and a score counter. 
+
+
+A menu you can click onto on the main screen where a pop up appears. On the pop up will be a detailed instructions part, as well as some buttons for things like settings and accessibility. There will also be an exit button to return to the main game screen.
+
+
+
+
+This is a leaderboard screen that you can click into from another button on the main game screen. The leaderboard screen will show the players in order of score, as well as an exit button to return to the game.
