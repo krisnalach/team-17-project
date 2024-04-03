@@ -1,60 +1,66 @@
 body {
-    font-family: 'calibri', sans-serif;
+  font-family: "calibri", sans-serif;
 }
 
 #vision {
-    color: lightslategray;
+  color: lightslategray;
+  text-align: center;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
 }
 
 nav a {
-    color: black;
-    text-decoration: none;
-    padding: 10px 20px;
-    margin-right: 10px;
-    border: 1px darkred solid;
-    border-radius: 5px;
+  color: black;
+  text-decoration: none;
+  padding: 10px 20px;
+  margin-right: 10px;
+  border: 1px darkred solid;
+  border-radius: 5px;
 }
 
 nav a:hover {
-    background-color: darkred;
+  background-color: darkred;
 }
 
 .grid-container {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
 }
 
 .grid-card {
-    text-align: center;
-    border: 1px solid;
-    border-radius: 4px;
-    padding: 10px;
+  text-align: center;
+  border: 1px solid;
+  border-radius: 4px;
+  padding: 10px;
 }
 
 div.grid-card > img {
-    width: 100%;
-    border-radius: 50%;
-    height: auto;
+  width: 100%;
+  border-radius: 50%;
+  height: auto;
 }
 
 div.grid-card > p {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 h2 {
-    color: darkred;
-    padding-top: 10px;
-    text-align: center;
+  color: darkred;
+  padding-top: 10px;
+  text-align: center;
 }
 
 button {
-    text-align: center;
-    display: block;
+  text-align: center;
+  display: block;
 }
 
 footer {
-    padding-top: 50px;
-    text-align: center;
-    color: gray;
+  padding-top: 50px;
+  text-align: center;
+  color: gray;
 }
