@@ -68,16 +68,15 @@ function addButton(elemId) {
 // Load group information into DOM elements
 loadText("texts/filler.txt", "#lach-role");
 loadText("texts/lach-bio.txt", "#lach-bio");
-loadText("texts/filler.txt", "#lustgarten-role");
 loadText("texts/lustgarten-bio.txt", "#lustgarten-bio");
 loadText("texts/filler.txt", "#lee-role");
 loadText("texts/filler.txt", "#lee-bio");
-loadText("texts/filler.txt", "#li-role");
+loadText("texts/li-bio.txt", "#li-role");
 loadText("texts/filler.txt", "#li-bio");
 
 // Load writing segments into DOM elements
-loadText('texts/filler.txt', '#overview', addButton);
-loadText('texts/filler.txt', '#application-parts', addButton);
+loadText('texts/overview.txt', '#overview', addButton);
+loadText('texts/application-parts.txt', '#application-parts', addButton);
 loadText('texts/data-reqs.txt', '#data-requirements', addButton);
 loadText('texts/filler.txt', '#wire-frames');
 loadText('texts/filler.txt', '#wire-frames', addButton);
