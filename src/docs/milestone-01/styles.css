@@ -41,7 +41,7 @@ nav a:hover {
 div.grid-card > img {
   width: 100%;
   border-radius: 50%;
-  height: auto;
+  height: 60%;
 }
 
 div.grid-card > p {
