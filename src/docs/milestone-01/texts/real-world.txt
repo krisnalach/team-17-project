@@ -2,7 +2,7 @@
 
 Our team has developed a gamified version of blackjack that aims to provide the thrill of the game while trying to remove its core aspects of gambling. By focusing on entertainment we want to provide users an enjoyable alternative for those that love the game of blackjack, but want to steer clear of the dangers of gambling and potentially getting addicted. 
 
-An example of a potential user could be someone that originally started playing blackjack at a local casino as a way to unwind after work. They just saw it as a recreational activity, but found themself spending more time, and more importantly more money at the casino. They might have got into a habit of chasing their losses and betting larger sums of money. Eventually they realize this is a destructive hobby that is harming their finances and mental health. 
+An example of a potential user could be someone that originally started playing blackjack at a local casino as a way to unwind after work. They just saw it as a recreational activity, but found themself spending more time, and more importantly, more money at the casino. They might have got into a habit of chasing their losses and betting larger sums of money. Eventually they realize this is a destructive hobby that is harming their finances and mental health. 
 
 Our application could provide this user an outlet for their love of blackjack without the risk of falling into gambling addiction. Their skills and experience playing would still transfer and be helpful as it is the same game at its core, but there is no longer the financial risk with every hand. Our hope is that our game can help some users like this satisfy their craving for the game in a responsible manner. 
 

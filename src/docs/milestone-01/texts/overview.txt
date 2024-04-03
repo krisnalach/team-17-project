@@ -1,4 +1,3 @@
 ﻿Our web application is a virtual rendition of the classic casino game, Blackjack with a modern twist in the rules. Our version is to teach the player the wrongings of gambling and deter those from forming a gambling addiction. This online platform also acts as a community space by offering a multiplayer aspect and leaderboard.
 
-
 Our project addresses the issue of gambling by changing the rules of betting in the game of Blackjack. Instead of using chips or money in Blackjack, the user will instead play with hearts. Hearts are meant to represent the player’s life and when they run out they die. If players try to make risky bets they will be taught the playing card odds that they are betting against. Players will have a leaderboard that tracks their wins through a points and win streak system. Through the ability to play alongside other people and compete with them on the leaderboard, we will also foster a community for our playerbase.
