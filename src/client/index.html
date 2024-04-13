@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlitzJack</title>
+    <!-- CSS Stylesheets -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- JavaScript Files -->
+    <script type="module" src="script.js" defer></script>
+</head>
+<body>
+
+    <nav style="display:none">
+        <!-- Main Navigation Bar -->
+        <button id="table">Table</button>
+        <button id="stats">Leaderboard/Statistics</button>
+        <button id="tutorial">Tutorial</button>
+    </nav>
+
+    <main>
+        <!-- Main content of the document -->
+        <div id="views">
+            <div id="home-view" class="view">
+                <!-- Home page content -->
+                <header>BlitzJack</header>
+
+                <div id="start-menu">
+                    <button id="table">Play</button>
+                    <button id="stats">Statistics</button>
+                    <button id="leaderboard">Leaderboard</button>
+                    <button id="Tutorial">Tutorial</button>
+                </div>
+
+                <form id="login-form">
+                    <div>
+                        <label for="username">Username:</label>
+                        <input type="text" id="username" name="username" required>
+                        <button id="login-button">Login</button>
+                    </div>
+                </form>
+            </div>
+
+            <div id="table-view" class="view" style="display:none">
+                <!-- Blackjack Table content -->
+
+            </div>
+
+            <div id="stat-view" class="view" style="display:none">
+                <!-- Statistics page content / Leaderboard -->
+
+            </div>
+
+            <div id="tutorial-view" class="view" style="display:none">
+                <!-- Tutorial page content -->
+
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        © 2024 Only L's. All rights reserved.
+    </footer>
+</body>
+</html>
