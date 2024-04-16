@@ -13,4 +13,3 @@ loginButton.addEventListener('click', async (event) => {
     const userStats = db.getUserStats(name);
     console.log(userStats);
 });
-

@@ -1,6 +1,10 @@
 body {
-    font-family: "calibri", sans-serif;
-    background-color: lightslategray;
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-variation-settings:
+      "slnt" 0;
+    background-color: #12193A;
 }
 
 #home-view {
@@ -12,10 +16,13 @@ body {
 #home-view header {
     margin-top: 20px;
     margin-bottom: 20px;
+    font-weight: bold;
     font-size: 4em;
+    color: #D9D9D9;
 }
 
 #login-form {
+    color: #D9D9D9;
     align-self: flex-start;
 }
 
@@ -28,7 +35,7 @@ body {
 
 #start-menu button {
     margin-bottom: 20px;
-    background-color: lightblue;
+    background-color: #D9D9D9;
     border: 1px solid black;
     border-radius: 10px;
     height: 10vh;
@@ -37,11 +44,13 @@ body {
 }
 
 #start-menu button:hover {
-    background-color: white;
+    background-color: #7A7A7A;
 }
 
 footer {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 50px;
+    color: #D9D9D9;
 }
