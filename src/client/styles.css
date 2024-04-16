@@ -1,0 +1,26 @@
+body {
+    font-family: "calibri", sans-serif;
+  }
+
+#home-view {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#start-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+#start-menu button {
+    margin-bottom: 20px;
+}
+
+footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

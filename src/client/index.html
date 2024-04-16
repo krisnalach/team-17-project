@@ -7,6 +7,7 @@
     <!-- CSS Stylesheets -->
     <link rel="stylesheet" href="styles.css">
     <!-- JavaScript Files -->
+    <script src="//cdn.jsdelivr.net/npm/pouchdb@8.0.1/dist/pouchdb.min.js"></script>
     <script type="module" src="script.js" defer></script>
 </head>
 <body>
@@ -26,6 +27,14 @@
                 <!-- Home page content -->
                 <header>BlitzJack</header>
 
+                <form id="login-form">
+                    <div>
+                        <label for="username">Username:</label>
+                        <input type="text" id="username" required>
+                        <button id="login-button">Login</button>
+                    </div>
+                </form>
+                
                 <div id="start-menu">
                     <button class="table">Play</button>
                     <button class="stats">Statistics</button>
@@ -33,13 +42,7 @@
                     <button class="tutorial">Tutorial</button>
                 </div>
 
-                <form id="login-form">
-                    <div>
-                        <label for="username">Username:</label>
-                        <input type="text" id="username" name="username" required>
-                        <button id="login-button">Login</button>
-                    </div>
-                </form>
+                
             </div>
 
             <div id="table-view" class="view" style="display:none">
