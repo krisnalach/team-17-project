@@ -1,11 +1,22 @@
 body {
     font-family: "calibri", sans-serif;
-  }
+    background-color: lightslategray;
+}
 
 #home-view {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+#home-view header {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 4em;
+}
+
+#login-form {
+    align-self: flex-start;
 }
 
 #start-menu {
@@ -17,6 +28,16 @@ body {
 
 #start-menu button {
     margin-bottom: 20px;
+    background-color: lightblue;
+    border: 1px solid black;
+    border-radius: 10px;
+    height: 10vh;
+    width: 50vw;
+    font-size: 3em;
+}
+
+#start-menu button:hover {
+    background-color: white;
 }
 
 footer {
