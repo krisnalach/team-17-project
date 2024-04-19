@@ -9,7 +9,5 @@ loginButton.addEventListener('click', async (event) => {
     event.preventDefault();
 
     const name = usernameInput.value;
-    console.log(name);
-    const userStats = db.getUserStats(name);
-    console.log(userStats);
+    await db.login(name);
 });
