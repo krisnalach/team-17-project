@@ -1,4 +1,5 @@
 let db = null;
+db = new PouchDB('mydb');
 
 const users = {
     'john': {
@@ -25,7 +26,6 @@ const users = {
  * Initialize the database
  */
 async function init() {
-    db = new PouchDB('mydb');
     try {
         await db.put({
             _id: 'lb',
@@ -75,9 +75,9 @@ export async function getLeaderboard() {
  * 
  * @param {string} id 
  */
-export async function getUserStats(id) {
+export async function getUserStats() {
     try {
-        const userStats = await db.get(id);
+        const userStats = await db.get('currUser');
         console.log(userStats);
         // Figure out how we want to represent this
         return userStats['stats'];
@@ -93,7 +93,13 @@ export async function getUserStats(id) {
  * at a time
  */
 export async function getUser() {
-
+    try {
+        const response = await db.get('currUser');
+        return response['name'];
+    }
+    catch (err) {
+        console.error(err);
+    }
 }
 
 /**
@@ -104,14 +110,10 @@ export async function getUser() {
 export async function login(name) {
     try {
         const response = await db.put({
-            _id: name,
-            'stats': users[name],
-        });
-        // Is this bad practice?
-        const response2 = await db.put({
             _id: 'currUser',
             'name': name,
-        })
+            'stats': users[name],
+        });
     }
     catch (err) {
         console.error(err);
@@ -125,8 +127,8 @@ export async function login(name) {
  */
 export async function logout(name) {
     try {
-        const response = await db.get(name);
-        await db.remove(response); // Should we be returning something?
+        const response = await db.get('currUser');
+        await db.remove(response); // Should we be removing or just clearing? (Might cause issues later)
     }
     catch (err) {
         console.error(err);
@@ -136,9 +138,10 @@ export async function logout(name) {
 // Prevent re-initializing the mock database
 try {
     // See if it is already pre-populated
-    let temp = await db.get('lb');
+    const temp = await db.get('lb');
 }
 catch (err) {
     // If not, initialize it
     await init();
+    console.error(err)
 }
