@@ -90,7 +90,8 @@ export async function getUserStats() {
 /**
  * Gets the current user that is logged in.
  * Assumes only one username is stored in local storage
- * at a time
+ * at a time. 
+ * @returns - the username of the currently logged in user, -1 otherwise
  */
 export async function getUser() {
     try {
@@ -99,6 +100,7 @@ export async function getUser() {
     }
     catch (err) {
         console.error(err);
+        return -1;
     }
 }
 
@@ -125,10 +127,11 @@ export async function login(name) {
  * local storage
  * @param {string} name 
  */
-export async function logout(name) {
+export async function logout() {
     try {
         const response = await db.get('currUser');
-        await db.remove(response); // Should we be removing or just clearing? (Might cause issues later)
+        await db.remove(response);
+        return -1;
     }
     catch (err) {
         console.error(err);
