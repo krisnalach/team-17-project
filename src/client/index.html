@@ -1,39 +1,43 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BlitzJack</title>
     <!-- CSS Stylesheets -->
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css">
     <!-- JavaScript Files -->
     <script src="//cdn.jsdelivr.net/npm/pouchdb@8.0.1/dist/pouchdb.min.js"></script>
     <script type="module" src="script.js" defer></script>
     <!-- Font Imports -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
       rel="stylesheet"
-    />
+    >
   </head>
   <body>
-    <nav style="display: none">
-      <!-- Main Navigation Bar -->
-      <button class="table">Table</button>
-      <button class="stats">Statistics</button>
-      <button class="leaderboard">Leaderboard</button>
-      <button class="tutorial">Tutorial</button>
-    </nav>
+    <!-- Login Form -->
+    <div id="login-form">
+        <div></div>
+    </div>
+
+    <div id="nav-container">
+        <nav>
+            <!-- Main Navigation Bar -->
+            <button class="table">Table</button>
+            <button class="stats">Statistics</button>
+            <button class="leaderboard">Leaderboard</button>
+            <button class="tutorial">Tutorial</button>
+            </nav>
+        </div>
 
     <main>
       <!-- Main content of the document -->
       <div id="views">
         <div id="home-view" class="view">
           <!-- Home page content -->
-          <form id="login-form">
-            <div></div>
-          </form>
 
           <header>BlitzJack</header>
 
@@ -47,22 +51,22 @@
 
         <div id="table-view" class="view" style="display: none">
           <!-- Blackjack Table content -->
-          <div>Blackjack table goes here</div>
+          <div style="color: #d6d6d6">Blackjack table goes here</div>
         </div>
 
         <div id="stats-view" class="view" style="display: none">
           <!-- Statistics page content -->
-          <div>Statistics page goes here</div>
+          <div style="color: #d6d6d6">Statistics page goes here</div>
         </div>
 
         <div id="lb-view" class="view" style="display: none">
           <!-- Leaderboard content -->
-          <div>Leaderboard page goes here</div>
+          <div style="color: #d6d6d6">Leaderboard page goes here</div>
         </div>
 
         <div id="tutorial-view" class="view" style="display: none">
           <!-- Tutorial page content -->
-          <div>Tutorial page goes here</div>
+          <div style="color: #d6d6d6">Tutorial page goes here</div>
         </div>
       </div>
     </main>
