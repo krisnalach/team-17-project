@@ -1,30 +1,46 @@
 "use strict";
 import * as db from "./db.js";
 
-document.addEventListener("DOMContentLoaded", (event) => {
-  function navigate(viewId) {
-    document.querySelectorAll(".view").forEach((view) => {
-      view.style.display = "none";
-    });
-    document.getElementById(viewId).style.display = "block";
-  }
+function loadNav() {
+  document.querySelector("nav").style.display = "block";
+}
 
-  document.querySelectorAll(".table").forEach((button) => {
-    button.addEventListener("click", (event) => navigate("table-view"));
+function navigate(viewId) {
+  document.querySelectorAll(".view").forEach((view) => {
+    view.style.display = "none";
   });
+  document.getElementById(viewId).style.display = "block";
+}
 
-  document.querySelectorAll(".stats").forEach((button) => {
-    button.addEventListener("click", (event) => navigate("stats-view"));
-  });
-
-  document.querySelectorAll(".leaderboard").forEach((button) => {
-    button.addEventListener("click", (event) => navigate("lb-view"));
-  });
-
-  document.querySelectorAll(".tutorial").forEach((button) => {
-    button.addEventListener("click", (event) => navigate("tutorial-view"));
+document.querySelectorAll(".table").forEach((button) => {
+  button.addEventListener("click", (event) => {
+    navigate("table-view");
+    loadNav();
   });
 });
+
+document.querySelectorAll(".stats").forEach((button) => {
+  button.addEventListener("click", (event) => {
+    navigate("stats-view");
+    loadNav();
+  });
+});
+
+document.querySelectorAll(".leaderboard").forEach((button) => {
+  button.addEventListener("click", (event) => {
+    navigate("lb-view");
+    loadNav();
+  });
+});
+
+document.querySelectorAll(".tutorial").forEach((button) => {
+  button.addEventListener("click", (event) => {
+    navigate("tutorial-view");
+    loadNav();
+  });
+});
+
+navigate("home-view");
 
 // login elements
 const loginLabel = document.createElement("label");
