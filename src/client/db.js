@@ -43,8 +43,8 @@ async function init() {
 }
 
 /**
- * 
- * @param {*} newView 
+ * Change the current view in local storage
+ * @param {string} newView - the ID of the view being changed to
  */
 export async function updateCurrView(newView) {
   try {
@@ -60,8 +60,8 @@ export async function updateCurrView(newView) {
 }
 
 /**
- * 
- * @returns 
+ * Get the current view from local storage
+ * @returns - the ID of the current view
  */
 export async function getCurrView() {
   try {
@@ -91,7 +91,8 @@ export async function addToLeaderboard(obj) {
 }
 
 /**
- *
+ * Get the leaderboard information from the database
+ * @returns - 
  */
 export async function getLeaderboard() {
   try {
@@ -104,8 +105,9 @@ export async function getLeaderboard() {
 }
 
 /**
- *
- * @param {string} id
+ * Get the statistics of the currently logged in user
+ * @returns - the user's stats, an object with fields:
+ *            "winrate", "highest_bid", "all_in_cnt", "blackjacks"
  */
 export async function getUserStats() {
   try {
@@ -137,7 +139,7 @@ export async function getUser() {
 /**
  * Log in a user by adding their username (and corresonding stats)
  * into local storage
- * @param {string} name
+ * @param {string} name - the username to put into local storage
  */
 export async function login(name) {
   try {
@@ -154,7 +156,7 @@ export async function login(name) {
 /**
  * Log out a user by removing their username from
  * local storage
- * @param {string} name
+ * @param {string} name - the username to be removed from local stoarge
  */
 export async function logout() {
   try {

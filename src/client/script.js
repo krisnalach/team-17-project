@@ -1,10 +1,17 @@
 "use strict";
 import * as db from "./db.js";
 
+/**
+ * Render the navigation bar
+ */
 function loadNav() {
   document.querySelector("nav").style.display = "block";
 }
 
+/**
+ * Change the currently displayed view
+ * @param {string} viewId - the ID of the view to be displayed
+ */
 function navigate(viewId) {
   document.querySelectorAll(".view").forEach((view) => {
     view.style.display = "none";
@@ -118,7 +125,7 @@ logoutButton.addEventListener("click", async (event) => {
  * Checks to see if the user's session exists in
  * local storage. If so, render the logout UI, if not,
  * render the login UI.
- * @param {string} user
+ * @param {string} user - the name of the current user
  */
 async function renderLogin(user) {
   if (user === -1) {
