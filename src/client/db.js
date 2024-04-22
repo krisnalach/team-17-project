@@ -27,11 +27,46 @@ const users = {
  */
 async function init() {
   try {
+    // pre-populate with leaderboard
     await db.put({
       _id: "lb",
       leaderboard: [],
     });
-    await db.put();
+    // set initial page to home
+    await db.put({
+      _id: "currView",
+      "view": "home-view"
+    });
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+/**
+ * 
+ * @param {*} newView 
+ */
+export async function updateCurrView(newView) {
+  try {
+    const response = await db.get("currView");
+    await db.put({
+      _id: "currView",
+      _rev: response._rev,
+      "view": newView,
+    });
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+/**
+ * 
+ * @returns 
+ */
+export async function getCurrView() {
+  try {
+    const response = await db.get("currView");
+    return response["view"];
   } catch (err) {
     console.error(err);
   }
@@ -134,7 +169,7 @@ export async function logout() {
 // Prevent re-initializing the mock database
 try {
   // See if it is already pre-populated
-  const temp = await db.get("lb");
+  const response = await db.get("lb");
 } catch (err) {
   // If not, initialize it
   await init();

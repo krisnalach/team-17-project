@@ -13,34 +13,42 @@ function navigate(viewId) {
 }
 
 document.querySelectorAll(".table").forEach((button) => {
-  button.addEventListener("click", (event) => {
+  button.addEventListener("click", async (event) => {
     navigate("table-view");
     loadNav();
+    await db.updateCurrView("table-view");
   });
 });
 
 document.querySelectorAll(".stats").forEach((button) => {
-  button.addEventListener("click", (event) => {
+  button.addEventListener("click", async (event) => {
     navigate("stats-view");
     loadNav();
+    await db.updateCurrView("stats-view");
   });
 });
 
 document.querySelectorAll(".leaderboard").forEach((button) => {
-  button.addEventListener("click", (event) => {
+  button.addEventListener("click", async (event) => {
     navigate("lb-view");
     loadNav();
+    await db.updateCurrView("lb-view");
   });
 });
 
 document.querySelectorAll(".tutorial").forEach((button) => {
-  button.addEventListener("click", (event) => {
+  button.addEventListener("click", async (event) => {
     navigate("tutorial-view");
     loadNav();
+    await db.updateCurrView("tutorial-view");
   });
 });
 
-navigate("home-view");
+const currView = await db.getCurrView();
+if (currView !== 'home-view') {
+  loadNav();
+}
+navigate(currView);
 
 // login elements
 const loginLabel = document.createElement("label");
