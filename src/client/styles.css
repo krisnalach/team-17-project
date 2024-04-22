@@ -17,6 +17,76 @@ nav {
   display: none;
 }
 
+.playtable {
+  justify-content: center;
+  margin-top: 2%;
+  background-color: green;
+  height: 80vh;
+}
+
+.topbar {
+  display: flex;
+  margin-top: 2%;
+  margin-left: 2%;
+  margin-right: 2%;
+}
+
+.score {
+  justify-content: right;
+  margin-top: 2%;
+  margin-right: 2%;
+  margin-left: 60%;
+}
+
+.health {
+  display: flex;
+  justify-content: left;
+  margin-top: 2%;
+  margin-left: 2%;
+}
+
+.heart {
+    color: white;
+    height: 10vh;
+}
+
+.dealer-image {
+    justify-content: center;
+    display: flex;
+    margin-top: 2%;   
+}
+
+.dealer {
+  justify-content: center;
+  display: flex;
+  gap: 10px;
+  height: 25vh;
+}
+
+.player {
+  justify-content: center;
+  display: flex;
+  gap: 10px;
+  height: 25vh;
+}
+
+.card {
+    width: 100px;
+    height: 150px;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+}
+
 #home-view {
     display: flex;
     flex-direction: column;
