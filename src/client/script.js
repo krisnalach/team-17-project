@@ -17,6 +17,7 @@ function navigate(viewId) {
     view.style.display = "none";
   });
   document.getElementById(viewId).style.display = "block";
+  window.history.pushState(null, null, `#${viewId}`);
 }
 
 document.querySelectorAll(".table").forEach((button) => {
@@ -75,7 +76,7 @@ loginButton.innerText = "Login";
 
 // logout elements
 const logoutButton = document.createElement("button");
-const welcomeElem = document.createElement("div");
+const welcomeElem = document.createElement("span");
 
 // Attempt to grab current user in session
 let user = await db.getUser();
