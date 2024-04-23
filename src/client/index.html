@@ -18,19 +18,31 @@
     >
   </head>
   <body>
-    <!-- Login Form -->
     <div id="login-form">
-        <div></div>
+      <div></div>
     </div>
+    <!-- Nav bar adapted from https://codepen.io/jo_Geek/pen/xgbaEr -->
+    <div class="nav">
+      <input type="checkbox" id="nav-check">
+      <div class="nav-header">
+        <div class="login">
+          Login
+        </div>
+      </div>
+      <div class="nav-btn">
+        <label for="nav-check">
+          <span></span>
+          <span></span>
+          <span></span>
+        </label>
+      </div>
 
-    <div id="nav-container">
-      <nav>
-        <!-- Main Navigation Bar -->
-        <button class="table">Table</button>
-        <button class="stats">Statistics</button>
-        <button class="leaderboard">Leaderboard</button>
-        <button class="tutorial">Tutorial</button>
-      </nav>
+      <div class="nav-links">
+        <a href="#table-view" class="table">Table</a>
+        <a href="#stats-view" class="stats">Statistics</a>
+        <a href="#lb-view" class="leaderboard">Leaderboard</a>
+        <a href="#tutorial-view" class="tutorial">Tutorial</a>
+      </div>
     </div>
 
     <main>

@@ -22,6 +22,12 @@ const users = {
   },
 };
 
+const prepop_lb = [{"name": "John", "score": 100},
+                     {"name": "Phil", "score": 90 },
+                     {"name": "Joe",  "score": 80 }, 
+                     {"name": "Mario","score": 70 },
+                     {"name": "Stu",  "score": 60}];
+
 /**
  * Initialize the database
  */
@@ -30,7 +36,7 @@ async function init() {
     // pre-populate with leaderboard
     await db.put({
       _id: "lb",
-      leaderboard: [],
+      leaderboard: lb,
     });
     // set initial page to home
     await db.put({
@@ -98,7 +104,7 @@ export async function getLeaderboard() {
   try {
     const response = await db.get("lb");
     // do we need to do any parsing?
-    return response;
+    return response["leaderboard"];
   } catch (err) {
     console.error(err);
   }

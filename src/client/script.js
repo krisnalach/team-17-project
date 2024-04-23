@@ -5,7 +5,7 @@ import * as db from "./db.js";
  * Render the navigation bar
  */
 function loadNav() {
-  document.querySelector("nav").style.display = "block";
+  document.querySelector(".nav").style.display = "block";
 }
 
 /**

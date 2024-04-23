@@ -1,21 +1,111 @@
+:root {
+  --main-bg-color: #12193A;
+  --main-gray: #D9D9D9;
+  --sub-gray: #7A7A7A;
+}
+
 body {
     font-family: "Inter", sans-serif;
     font-optical-sizing: auto;
     font-style: normal;
     font-variation-settings:
       "slnt" 0;
-    background-color: #12193A;
+    background-color: var(--main-bg-color);
+    margin: 0px;
 }
 
-#nav-container {
-  display: flex;
-  justify-content: center;
-  margin-top: 2%;
+/* Start of Nav bar styling */
+/* Adapted from https://codepen.io/jo_Geek/pen/xgbaEr */
+
+.nav {
+  height: 50px;
+  width: 100%;
+  background-color: var(--main-gray);
+  position: relative;
 }
 
-nav {
+.nav > .nav-header {
+  display: inline;
+}
+
+.nav > .nav-header > .login {
+  display: inline-block;
+  font-size: 22px;
+  color: var(--main-bg-color);
+  padding: 10px 10px 10px 10px;
+}
+
+.nav > .nav-btn {
   display: none;
 }
+
+.nav > .nav-links {
+  display: inline;
+  float: right;
+  font-size: 18px;
+}
+
+.nav > .nav-links > a {
+  display: inline-block;
+  padding: 13px 10px 13px 10px;
+  text-decoration: none;
+  color: var(--main-bg-color);
+}
+
+.nav > .nav-links > a:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.nav > #nav-check {
+  display: none;
+}
+
+@media (max-width:600px) {
+  .nav > .nav-btn {
+    display: inline-block;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+  }
+  .nav > .nav-btn > label {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    padding: 13px;
+  }
+  .nav > .nav-btn > label:hover,.nav  #nav-check:checked ~ .nav-btn > label {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+  .nav > .nav-btn > label > span {
+    display: block;
+    width: 25px;
+    height: 10px;
+    border-top: 2px solid #eee;
+  }
+  .nav > .nav-links {
+    position: absolute;
+    display: block;
+    width: 100%;
+    background-color: #333;
+    height: 0px;
+    transition: all 0.3s ease-in;
+    overflow-y: hidden;
+    top: 50px;
+    left: 0px;
+  }
+  .nav > .nav-links > a {
+    display: block;
+    width: 100%;
+  }
+  .nav > #nav-check:not(:checked) ~ .nav-links {
+    height: 0px;
+  }
+  .nav > #nav-check:checked ~ .nav-links {
+    height: calc(100vh - 50px);
+    overflow-y: auto;
+  }
+}
+/* End of Nav bar styling */
 
 .playtable {
   justify-content: center;
@@ -98,12 +188,12 @@ nav {
     margin-bottom: 20px;
     font-weight: bold;
     font-size: 4em;
-    color: #D9D9D9;
+    color: var(--main-gray);
     text-align: center;
 }
 
 #login-form {
-    color: #D9D9D9;
+    color: var(--main-bg-color);
     align-self: flex-start;
 }
 
@@ -116,7 +206,7 @@ nav {
 
 #start-menu button {
     margin-bottom: 20px;
-    background-color: #D9D9D9;
+    background-color: var(--main-gray);
     border: 1px solid black;
     border-radius: 10px;
     height: 10vh;
@@ -125,7 +215,7 @@ nav {
 }
 
 #start-menu button:hover {
-    background-color: #7A7A7A;
+    background-color: var(--sub-gray);
 }
 
 footer {
@@ -133,5 +223,5 @@ footer {
     flex-direction: column;
     align-items: center;
     margin-top: 50px;
-    color: #D9D9D9;
+    color: var(--main-gray);
 }
