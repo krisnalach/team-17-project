@@ -2,20 +2,26 @@ let db = null;
 db = new PouchDB("mydb");
 
 const users = {
-  john: {
-    winrate: 1,
+  "john": {
+    games_played: 100,
+    wins: 100,
+    losses: 0,
     highest_bid: 10000,
     all_in_cnt: 50,
     blackjacks: 17,
   },
-  phil: {
-    winrate: 0.7,
+  "phil": {
+    games_played: 100,
+    wins: 75,
+    losses: 25,
     highest_bid: 3000,
     all_in_cnt: 3,
     blackjacks: 13,
   },
-  stu: {
-    winrate: 0.2,
+  "stu": {
+    games_played: 100,
+    wins: 45,
+    losses: 55,
     highest_bid: 70,
     all_in_cnt: 1000,
     blackjacks: 1,
@@ -36,7 +42,7 @@ async function init() {
     // pre-populate with leaderboard
     await db.put({
       _id: "lb",
-      leaderboard: lb,
+      leaderboard: prepop_lb,
     });
     // set initial page to home
     await db.put({

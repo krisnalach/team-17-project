@@ -1,0 +1,27 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+.leaderboard {
+    width: 300px;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
+}
+.leaderboard th,
+.leaderboard td {
+    padding: 10px;
+    text-align: left;
+}
+.leaderboard th {
+    background-color: #f2f2f2;
+}
+.leaderboard tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+.leaderboard tr:hover {
+    background-color: #f2f2f2;
+}
