@@ -121,9 +121,15 @@ body {
 
 .playtable {
   justify-content: center;
-  margin-top: 2%;
   background-color: green;
-  height: 80vh;
+  height: 65vh;
+}
+
+.hand-score {
+  justify-content: center;
+  text-align: center;
+  margin-right: 2%;
+  margin-left: 2%;
 }
 
 .topbar {
@@ -131,6 +137,7 @@ body {
   margin-top: 2%;
   margin-left: 2%;
   margin-right: 2%;
+  height: 5vh;
 }
 
 .score {
@@ -152,7 +159,7 @@ body {
     height: 10vh;
 }
 
-.dealer-image {
+#dealer-image {
     justify-content: center;
     display: flex;
     margin-top: 2%;   
@@ -162,14 +169,12 @@ body {
   justify-content: center;
   display: flex;
   gap: 10px;
-  height: 25vh;
 }
 
 .player {
   justify-content: center;
   display: flex;
   gap: 10px;
-  height: 25vh;
 }
 
 .card {
