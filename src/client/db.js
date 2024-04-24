@@ -2,7 +2,7 @@ let db = null;
 db = new PouchDB("mydb");
 
 const users = {
-  john: {
+  "john": {
     games_played: 100,
     wins: 100,
     losses: 0,
@@ -10,7 +10,7 @@ const users = {
     all_in_cnt: 50,
     blackjacks: 17,
   },
-  phil: {
+  "phil": {
     games_played: 100,
     wins: 75,
     losses: 25,
@@ -18,7 +18,7 @@ const users = {
     all_in_cnt: 3,
     blackjacks: 13,
   },
-  stu: {
+  "stu": {
     games_played: 100,
     wins: 45,
     losses: 55,
