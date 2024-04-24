@@ -126,7 +126,8 @@ export async function getUserStats() {
     const userStats = await db.get("currUser");
     console.log(userStats);
     // Figure out how we want to represent this
-    return userStats["stats"];
+    //return userStats["stats"];
+    return users.john;
   } catch (err) {
     console.error(err);
   }
