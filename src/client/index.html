@@ -21,10 +21,16 @@
     <!-- Nav bar adapted from https://codepen.io/jo_Geek/pen/xgbaEr -->
     <div class="nav">
       <input type="checkbox" id="nav-check">
-      <div class="nav-header">
-        <div class="login">
-          <div id="login-form">
-            <div></div>
+      <div class="dropdown">
+        <span id="welcome">Login</span>
+        <div class="dropdown-content">
+          <div class="login-form">
+            <label id="username-label" for="username">Username:</label>
+            <input id="username" type="text" required>
+            <label id="password-label" for="password">Password:</label>
+            <input id="password" type="text">
+            <button id="login">Log In</button>
+            <button id="logout">Log Out</button>
           </div>
         </div>
       </div>

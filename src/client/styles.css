@@ -24,15 +24,27 @@ body {
   position: relative;
 }
 
-.nav > .nav-header {
-  display: inline;
-}
-
-.nav > .nav-header > .login {
+.nav > .dropdown  {
   display: inline-block;
   font-size: 22px;
   color: var(--main-bg-color);
   padding: 10px 10px 10px 10px;
+  position: relative;
+}
+
+.nav > .dropdown:hover > .dropdown-content {
+  display: block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: var(--sub-gray);
+  padding: 5px;
+}
+
+#login-form {
+  background-color: var(--main-gray);
 }
 
 .nav > .nav-btn {
