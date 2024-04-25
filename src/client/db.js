@@ -120,15 +120,12 @@ export async function getLeaderboard() {
 /**
  * Get the statistics of the currently logged in user
  * @returns - the user's stats, an object with fields:
- *            "winrate", "highest_bid", "all_in_cnt", "blackjacks"
+ *            "winrate", "highest_bid", "all_in_cnt", "blackjacks" SUBJECT TO CHANGE
  */
 export async function getUserStats() {
   try {
     const userStats = await db.get("currUser");
-    console.log(userStats);
-    // Figure out how we want to represent this
-    //return userStats["stats"];
-    return users.john;
+    return userStats["stats"];
   } catch (err) {
     console.error(err);
   }

@@ -96,6 +96,7 @@ renderLogin(user);
 
 // load stats, but need to check if user is logged in first
 if (user !== -1) {
+  loggedInStats.innerHTML = "";
   await renderStats(loggedInStats);
 }
 

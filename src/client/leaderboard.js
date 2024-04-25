@@ -19,8 +19,6 @@ export function renderLeaderboard(element) {
     `;
   element.appendChild(header);
 
-  console.log(userStats);
-
   const tableBody = document.createElement("tbody"); //make the body of the table
   for (let i = 0; i < userStats.length; ++i) {
     const tableItem = document.createElement("tr"); //make a new row in the table

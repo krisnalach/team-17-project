@@ -5,7 +5,7 @@ import * as db from "./db.js";
  * @param {obj} element - the DOM element to render onto
  */
 export async function renderStats(element) {
-  const userStats = await db.getUserStats();
+  let userStats = await db.getUserStats();
   const statsContainer = document.createElement("div");
   statsContainer.classList.add("stats-container");
 
