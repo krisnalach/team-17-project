@@ -1,34 +1,34 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BlitzJack</title>
     <!-- CSS Stylesheets -->
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css" />
     <!-- JavaScript Files -->
     <script src="//cdn.jsdelivr.net/npm/pouchdb@8.0.1/dist/pouchdb.min.js"></script>
     <script type="module" src="script.js" defer></script>
     <!-- Font Imports -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
       rel="stylesheet"
-    >
+    />
   </head>
   <body>
     <!-- Nav bar adapted from https://codepen.io/jo_Geek/pen/xgbaEr -->
     <div class="nav">
-      <input type="checkbox" id="nav-check">
+      <input type="checkbox" id="nav-check" />
       <div class="dropdown">
         <span id="welcome">Login</span>
         <div class="dropdown-content">
           <div class="login-form">
             <label id="username-label" for="username">Username:</label>
-            <input id="username" type="text" required>
+            <input id="username" type="text" required />
             <label id="password-label" for="password">Password:</label>
-            <input id="password" type="text">
+            <input id="password" type="text" />
             <button id="login">Log In</button>
             <button id="logout">Log Out</button>
           </div>
@@ -69,29 +69,49 @@
         <div id="table-view" class="view" style="display: none">
           <!-- Blackjack Table content -->
           <div class="playtable">
-            <div class ="topbar">
+            <div class="topbar">
               <div class="health">
-                <img src="images/PHeart.png" alt="Heart" style="width: 35px; height: 35px;">
-                <img src="images/PHeart.png" alt="Heart" style="width: 35px; height: 35px;">
-                <img src="images/PHeart.png" alt="Heart" style="width: 35px; height: 35px;">
-                <img src="images/PHeart.png" alt="Heart" style="width: 35px; height: 35px;">
-                <img src="images/PHeart-Empty.png" alt="Heart" style="width: 35px; height: 35px;">
+                <img
+                  src="images/PHeart.png"
+                  alt="Heart"
+                  style="width: 35px; height: 35px"
+                />
+                <img
+                  src="images/PHeart.png"
+                  alt="Heart"
+                  style="width: 35px; height: 35px"
+                />
+                <img
+                  src="images/PHeart.png"
+                  alt="Heart"
+                  style="width: 35px; height: 35px"
+                />
+                <img
+                  src="images/PHeart.png"
+                  alt="Heart"
+                  style="width: 35px; height: 35px"
+                />
+                <img
+                  src="images/PHeart-Empty.png"
+                  alt="Heart"
+                  style="width: 35px; height: 35px"
+                />
               </div>
               <div class="score">Score: 12,522</div>
             </div>
-            <img id="dealer-image" src="images/Dealer.png" alt="Dealer">
+            <img id="dealer-image" src="images/Dealer.png" alt="Dealer" />
             <div class="dealer">
               <div class="card">?</div>
               <div class="card">5</div>
             </div>
             <div id="dealer-score" class="hand-score">Score: 5 + ?</div>
-            <div class = "spacer" style="height: 30px;"></div>
+            <div class="spacer" style="height: 30px"></div>
             <div id="player-score" class="hand-score">Score: 21</div>
             <div class="player">
               <div class="card">A</div>
               <div class="card">J</div>
             </div>
-            <div class = "spacer" style="height: 30px;"></div>
+            <div class="spacer" style="height: 30px"></div>
             <div class="buttons">
               <button class="double">Double</button>
               <button class="split">Split</button>
@@ -103,47 +123,57 @@
 
         <div id="stats-view" class="view" style="display: none">
           <!-- Statistics page content -->
-          <!--<div style="color: #d6d6d6">Statistics page goes here</div> -->
-          <div class="container">
-            <h1 style="color: white;">Statistics</h1>
-            <div id="stats">
-                <!-- Stats will be displayed here -->
-            </div>
-        </div>
+          <div id="logged-out">Please log in</div>
+          <div id="logged-in"></div>
         </div>
 
         <div id="lb-view" class="view" style="display: none">
           <!-- Leaderboard content -->
-          <div style="color: #d6d6d6">Leaderboard page goes here</div>
+          <table id="lb-table"></table>
         </div>
 
         <div id="tutorial-view" class="view" style="display: none">
           <!-- Tutorial page content -->
-          <div class = "tutorial-columnns">
-            <div class = "tutorial-col">
+          <div class="tutorial-columnns">
+            <div class="tutorial-col">
               <header>How It Works</header>
-              <br>BlitzJack is played with one player and one dealer. <br><br>
-              The player is dealt two cards and the dealer is dealt one card face up and one card face down. <br><br>
-              Numbered cards are worth their face value, face cards are worth 10, and aces are worth 1 or 11. <br><br>
-              The goal of the game is to get as close to 21 as possible without going over. <br><br>
-              If you go over 21, you bust and lose the game. <br><br>
-              If you and the dealer both have the same score, it's a push/tie. <br><br>
-              If you get a higher score than the dealer without going over 21, you win.
+              <br />BlitzJack is played with one player and one dealer.
+              <br /><br />
+              The player is dealt two cards and the dealer is dealt one card
+              face up and one card face down. <br /><br />
+              Numbered cards are worth their face value, face cards are worth
+              10, and aces are worth 1 or 11. <br /><br />
+              The goal of the game is to get as close to 21 as possible without
+              going over. <br /><br />
+              If you go over 21, you bust and lose the game. <br /><br />
+              If you and the dealer both have the same score, it's a push/tie.
+              <br /><br />
+              If you get a higher score than the dealer without going over 21,
+              you win.
             </div>
-            <div class = "tutorial-col">
+            <div class="tutorial-col">
               <header>How To Play</header>
-              <br>You start the game with 5 hearts. If you lose a round, you lose a heart. You can regain hearts by hitting certain score thresholds. <br><br>
-              You as the player have 4 possible actions: Hit, Stand, Double, and Split. <br><br>
-              Hit: Draw another card from the deck. You can hit as many times as you want until you bust or stand. <br><br>
-              Stand: Keep your current hand and end your turn. <br><br>
-              Double: Risk two hearts for a chance to score higher. Take one final card. Can only be done on the first turn. <br><br>
-              Split: If you have two cards of the same value, you can split them into two separate hands. Risking one heart on each hand.
+              <br />You start the game with 5 hearts. If you lose a round, you
+              lose a heart. You can regain hearts by hitting certain score
+              thresholds. <br /><br />
+              You as the player have 4 possible actions: Hit, Stand, Double, and
+              Split. <br /><br />
+              Hit: Draw another card from the deck. You can hit as many times as
+              you want until you bust or stand. <br /><br />
+              Stand: Keep your current hand and end your turn. <br /><br />
+              Double: Risk two hearts for a chance to score higher. Take one
+              final card. Can only be done on the first turn. <br /><br />
+              Split: If you have two cards of the same value, you can split them
+              into two separate hands. Risking one heart on each hand.
             </div>
-              <div class = "tutorial-col">
+            <div class="tutorial-col">
               <header>The Dealer</header>
-              <br>The dealer will always hit until they reach a score of 17 or higher. Then they will either stand or bust. <br><br>
-              The dealer will also hit on a soft 17 (a hand with an ace valued as 11). <br><br>
-              The dealer will stand on a hard 17 (a hand with an ace valued as 1). <br><br>
+              <br />The dealer will always hit until they reach a score of 17 or
+              higher. Then they will either stand or bust. <br /><br />
+              The dealer will also hit on a soft 17 (a hand with an ace valued
+              as 11). <br /><br />
+              The dealer will stand on a hard 17 (a hand with an ace valued as
+              1). <br /><br />
               The dealer will not split or double.
             </div>
           </div>
