@@ -2,37 +2,39 @@ let db = null;
 db = new PouchDB("mydb");
 
 const users = {
-  "john": {
+  john: {
     games_played: 100,
     wins: 100,
     losses: 0,
     highest_bid: 10000,
-    all_in_cnt: 50,
+    all_in_count: 50,
     blackjacks: 17,
   },
-  "phil": {
+  phil: {
     games_played: 100,
     wins: 75,
     losses: 25,
     highest_bid: 3000,
-    all_in_cnt: 3,
+    all_in_count: 3,
     blackjacks: 13,
   },
-  "stu": {
+  stu: {
     games_played: 100,
     wins: 45,
     losses: 55,
     highest_bid: 70,
-    all_in_cnt: 1000,
+    all_in_count: 1000,
     blackjacks: 1,
   },
 };
 
-const prepop_lb = [{"name": "John", "score": 100},
-                     {"name": "Phil", "score": 90 },
-                     {"name": "Joe",  "score": 80 }, 
-                     {"name": "Mario","score": 70 },
-                     {"name": "Stu",  "score": 60}];
+const prepop_lb = [
+  { name: "John", score: 100 },
+  { name: "Phil", score: 90 },
+  { name: "Joe", score: 80 },
+  { name: "Mario", score: 70 },
+  { name: "Stu", score: 60 },
+];
 
 /**
  * Initialize the database
@@ -47,7 +49,7 @@ async function init() {
     // set initial page to home
     await db.put({
       _id: "currView",
-      "view": "home-view"
+      view: "home-view",
     });
   } catch (err) {
     console.error(err);
@@ -64,7 +66,7 @@ export async function updateCurrView(newView) {
     await db.put({
       _id: "currView",
       _rev: response._rev,
-      "view": newView,
+      view: newView,
     });
   } catch (err) {
     console.error(err);
@@ -104,12 +106,11 @@ export async function addToLeaderboard(obj) {
 
 /**
  * Get the leaderboard information from the database
- * @returns - 
+ * @returns - the leaderboard as an array of objects
  */
 export async function getLeaderboard() {
   try {
     const response = await db.get("lb");
-    // do we need to do any parsing?
     return response["leaderboard"];
   } catch (err) {
     console.error(err);
