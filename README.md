@@ -9,3 +9,4 @@
 ### Limitations/Notes
 - UI designs aren't fully fleshed out yet, but the general idea of how they'll look is there
 - There are errors thrown in the console purposefully during certain events (i.e. user not being logged in)
+- Game logic is not set up yet
