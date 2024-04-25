@@ -130,7 +130,6 @@ export async function getUserStats() {
     console.error(err);
   }
 }
-
 /**
  * Gets the current user that is logged in.
  * Assumes only one username is stored in local storage
