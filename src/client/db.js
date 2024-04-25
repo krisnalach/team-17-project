@@ -126,13 +126,39 @@ export async function getUserStats() {
     const userStats = await db.get("currUser");
     console.log(userStats);
     // Figure out how we want to represent this
-    //return userStats["stats"];
-    return users.john;
+    return userStats["stats"];
   } catch (err) {
     console.error(err);
   }
 }
 
+export async function displayStats(userStats) {
+  //let userStats = await db.getUserStats();
+  try {
+    const statsElement = document.getElementById('stats');
+    statsElement.innerHTML = `
+    <p style="color: white;">Games Played: ${userStats.games_played}</p>
+    <p style="color: white;">Wins: ${userStats.wins}</p>
+    <p style="color: white;">Losses: ${userStats.losses}</p>
+    <p style="color: white;">Highest Bid: $${userStats.highest_bid}</p>
+    <p style="color: white;">All-In Count: ${userStats.all_in_cnt}</p>
+    <p style="color: white;">Blackjacks: ${userStats.blackjacks}</p>`
+  ;} catch (err) {
+    console.error(err);
+  }
+}
+
+document.getElementById('stats').addEventListener('click', async function() {
+  try {
+      // Call getUserStats to retrieve user stats
+      const userStats = await getUserStats();
+      
+      // Display the retrieved stats
+      displayStats(userStats);
+  } catch (error) {
+      console.error(error);
+  }
+});
 /**
  * Gets the current user that is logged in.
  * Assumes only one username is stored in local storage
