@@ -133,20 +133,20 @@ function playerHit() {
 
 // the doubleDown function doubles the player's hearts risked and adds one card to the player's hand
 function doubleDown() {
-  // double the player's hearts risked
-  playerHand.push(drawCard(deck));
-  // add htmly element
+  card_drawn = drawCard(deck);
+  playerHand.push(card_drawn);
   let card = document.createElement("div");
   card.classList.add("card");
   card.textContent = card_drawn.rank;
   playerHTML.appendChild(card);
-  // update player score
   playerScoreHTML.textContent = calculateHandValue(playerHand);
-  // check if the player has busted
   if (calculateHandValue(playerHand) > 21) {
-    bustPlayer()
+    loseHeart(); // lose the additional heart
+    bustPlayer() // bust like normal and lose the other heart
   }
-  stand();
+  else {
+    stand();
+  }
 }
 
 // the dealerHit function adds a card to the dealer's hand
