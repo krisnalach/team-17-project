@@ -23,10 +23,27 @@ let deck = [];
 let playerHand = [];
 let playerHTML = document.querySelector(".player");
 let playerScoreHTML = document.querySelector(".player-score");
+let playerCard1HTML = document.getElementById("playerCard1");
+let playerCard2HTML = document.getElementById("playerCard2");
+
 let dealerHand = [];
 let dealerHTML = document.querySelector(".dealer");
 let dealerScoreHTML = document.querySelector(".dealer-score");
+let dealerCard1HTML = document.getElementById("dealerCard1");
+let dealerCard2HTML = document.getElementById("dealerCard2");
+
 let discardedCards = [];
+let scoreHTML = document.getElementById("score");
+
+let hitButton = document.getElementById("hit");
+let standButton = document.getElementById("stand");
+let doubleButton = document.getElementById("double");
+let splitButton = document.getElementById("split");
+
+hitButton.addEventListener("click", playerHit);
+standButton.addEventListener("click", stand);
+doubleButton.addEventListener("click", doubleDown);
+splitButton.addEventListener("click", split);
 
 let score = 0;
 
@@ -77,10 +94,18 @@ function drawCard(deck) {
 
 // the dealInitialHands function deals two cards to the player and two cards to the dealer
 function dealInitialHands() {
-  playerHand.push(drawCard(deck));
-  playerHand.push(drawCard(deck));
-  dealerHand.push(drawCard(deck));
-  dealerHand.push(drawCard(deck));
+  let playerCard1 = drawCard(deck);
+  playerHand.push(playerCard1);
+  playerCard1HTML.textContent = playerCard1.rank;
+  let playerCard2 = drawCard(deck);
+  playerHand.push(playerCard2);
+  playerCard2HTML.textContent = playerCard2.rank;
+  let dealerCard1 = drawCard(deck);
+  dealerHand.push(dealerCard1);
+  dealerCard1HTML.textContent = dealerCard1.rank;
+  let dealerCard2 = drawCard(deck);
+  dealerHand.push(dealerCard2);
+  dealerCard2HTML.textContent = dealerCard2.rank;
 }
 
 // the discardHands function moves the cards in the player and dealer hands to the discarded cards pile
@@ -127,6 +152,8 @@ function doubleDown() {
 // the dealerHit function adds a card to the dealer's hand
 function dealerHit() {
   dealerHand.push(drawCard(deck));
+  // update dealer score
+  dealerScoreHTML.textContent = calculateHandValue(dealerHand);
 }
 
 // TODO the split function allows the player to split their hand into two hands
@@ -136,7 +163,7 @@ function split() {
   return false;
 }
 
-// TODO stand function that runs the dealer's turn and then determines the winner
+// stand function that runs the dealer's turn and then determines the winner
 function stand() {
   // dealer hits until their hand value is 17 or greater
   while (calculateHandValue(dealerHand) < 17) {
@@ -147,11 +174,10 @@ function stand() {
   }
   // determine the winner
   if (calculateHandValue(playerHand) > calculateHandValue(dealerHand)) {
-    score += 1;
-    // TODO add a you win popup
-    newRound();
+    winRound();
   } else if (calculateHandValue(playerHand) < calculateHandValue(dealerHand)) {
-    // lose a heart
+    // TODO add a you lose popup
+    loseHeart();
   } else {
     // TODO tie popup
     newRound();
@@ -179,12 +205,40 @@ function loseHeart() {
   hearts -= 1;
 }
 
-// TODO popup saying bust, then lose a heart
 function bustPlayer() {
-  return false;
+  // TODO popup saying player bust
+  loseHeart();
+  newRound();
 }
 
-// TODO popup saying bust, then win
 function bustDealer() {
-  return false;
+  // TODO popup saying dealer bust
+  winRound();
+}
+
+function winRound() {
+  score += 100;
+  scoreHTML.textContent = "Score: " + String(score);
+  // TODO add a you win popup
+  newRound();
+}
+
+function calculateHandValue (hand) {
+  let value = 0;
+  let aces = 0;
+  for (let i = 0; i < hand.length; i++) {
+    if (hand[i].rank === "A") {
+      aces += 1;
+      value += 11;
+    }
+    else {
+      value += hand[i].value;
+    }
+  }
+  // if the hand is greater than 21 due to an ace being worth 11, change the value of the ace to 1
+  while (value > 21 && aces > 0) {
+    value -= 10;
+    aces -= 1;
+  }
+  return value;
 }
