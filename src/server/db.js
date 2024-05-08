@@ -55,25 +55,68 @@ const Database = async (dbname) => {
         userExists: async (username) => {
             try {
                 const db = getDB();
-                const users = await db.get("users");
-                let ret = users.data.filter(o => o.name === username).length === 1;
+                const logins = await db.get("logins");
+                let ret = logins.data.hasOwnProperty(username);
+                await db.close();
                 return {status: "success", data: ret};
             } catch (err) {
                 return {status: "error", message: err.message};
             }
-        }
+        },
         
-        validateLogin: async (username, password) => {
+        /**
+         * 
+         * @param {*} username 
+         * @param {*} hash 
+         * @returns 
+         */
+        validateLogin: async (username, hash) => {
+            try {
+                const db = getDB();
+                const logins = await db.get("logins");
+                let ret = logins.data[username] === hash;
+                await db.close();
+                return {status: "success", data: ret};
+            } catch (err) {
+                return {status: "error", message: err.message};
+            }
+        },
 
-        }
+        /**
+         * 
+         * @param {*} username 
+         * @param {*} hash 
+         * @returns 
+         */
+        addUser: async(username, hash) => {
+            try {
+                const db = getDB();
+                const logins = await db.get("logins");
+                logins.data[username] = hash;
+                await db.put(logins)
+                //TODO: add user into users collection? what are default values?
+                await db.close();
+            } catch(err) {
+                return {status: "error", message: err.message};
+            }
+        },
 
-        addUser: async(username, password) => {
-            
-        }
-
-
+        // will need to pass in stats as obj - probably create these on client side
         updateUser: async (user, ) => {
 
-        }
+        },
+
+        getLeaderboard: async() => {
+
+        },
+
+        updateLeaderboard: async() => {
+
+        },
+
+
     };
+    return obj;
 };
+
+export default Database;
