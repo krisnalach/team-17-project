@@ -355,6 +355,11 @@ body {
   background-color: var(--sub-gray);
 }
 
+#middleSpacer {
+  font-size: 1.5em;
+  text-align: center;
+}
+
 footer {
   display: flex;
   flex-direction: column;

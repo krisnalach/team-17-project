@@ -22,18 +22,20 @@ let heart5 = document.getElementById("heart5");
 let deck = [];
 let playerHand = [];
 let playerHTML = document.querySelector(".player");
-let playerScoreHTML = document.querySelector(".player-score");
+let playerScoreHTML = document.getElementById("player-score");
 let playerCard1HTML = document.getElementById("playerCard1");
 let playerCard2HTML = document.getElementById("playerCard2");
 
 let dealerHand = [];
 let dealerHTML = document.querySelector(".dealer");
-let dealerScoreHTML = document.querySelector(".dealer-score");
+let dealerScoreHTML = document.getElementById("dealer-score");
 let dealerCard1HTML = document.getElementById("dealerCard1");
 let dealerCard2HTML = document.getElementById("dealerCard2");
 
 let discardedCards = [];
 let scoreHTML = document.getElementById("score");
+
+let middleSpacerHTML = document.getElementById("middleSpacer");
 
 let hitButton = document.getElementById("hit");
 let standButton = document.getElementById("stand");
@@ -46,6 +48,11 @@ doubleButton.addEventListener("click", doubleDown);
 splitButton.addEventListener("click", split);
 
 let score = 0;
+
+// THIS CODE ACTUALLY STARTS THE GAME
+deck = createDeck();
+newRound();
+
 
 // the createDeck function creates and returns a shuffled deck of cards
 function createDeck() {
@@ -65,6 +72,7 @@ function createDeck() {
 }
 
 function newRound() {
+  middleSpacerHTML.textContent = "";
   // discard previous hands
   discardHands();
   // deal initial hands
@@ -73,10 +81,23 @@ function newRound() {
   playerScoreHTML.textContent = calculateHandValue(playerHand);
   // update dealer score
   dealerScoreHTML.textContent = calculateHandValue(dealerHand);
+  // if the player has blackjack, they win
+  if (calculateHandValue(playerHand) === 21) {
+    if (calculateHandValue(dealerHand) === 21) {
+      middleSpacerHTML.textContent = "Tie!";
+      setTimeout(newRound, 3000);
+    }
+    else {
+      score += 150;
+      scoreHTML.textContent = "Score: " + String(score);
+      middleSpacerHTML.textContent = "Blackjack! You Win!";
+      setTimeout(newRound, 3000);
+    }
+  }
 }  
 
 // the drawCard function returns the top card from the deck
-function drawCard(deck) {
+function drawCard() {
   // if deck is less than 8 cards, shuffle the discarded cards back into the deck
   if (deck.length < 8) {
     deck = deck.concat(discardedCards);
@@ -94,16 +115,16 @@ function drawCard(deck) {
 
 // the dealInitialHands function deals two cards to the player and two cards to the dealer
 function dealInitialHands() {
-  let playerCard1 = drawCard(deck);
+  let playerCard1 = drawCard();
   playerHand.push(playerCard1);
   playerCard1HTML.textContent = playerCard1.rank;
-  let playerCard2 = drawCard(deck);
+  let playerCard2 = drawCard();
   playerHand.push(playerCard2);
   playerCard2HTML.textContent = playerCard2.rank;
-  let dealerCard1 = drawCard(deck);
+  let dealerCard1 = drawCard();
   dealerHand.push(dealerCard1);
   dealerCard1HTML.textContent = dealerCard1.rank;
-  let dealerCard2 = drawCard(deck);
+  let dealerCard2 = drawCard();
   dealerHand.push(dealerCard2);
   dealerCard2HTML.textContent = dealerCard2.rank;
 }
@@ -111,13 +132,20 @@ function dealInitialHands() {
 // the discardHands function moves the cards in the player and dealer hands to the discarded cards pile
 function discardHands() {
   discardedCards = discardedCards.concat(playerHand, dealerHand);
+  // remove elements from the player and dealer hands not named playerCard1 or playerCard2 or dealerCard1 or dealerCard2
+  while (playerHTML.lastChild.id !== "playerCard1" && playerHTML.lastChild.id !== "playerCard2") {
+    playerHTML.removeChild(playerHTML.lastChild);
+  }
+  while (dealerHTML.lastChild.id !== "dealerCard1" && dealerHTML.lastChild.id !== "dealerCard2") {
+    dealerHTML.removeChild(dealerHTML.lastChild);
+  }
   playerHand = [];
   dealerHand = [];
 }
 
 // the playerHit function adds a card to the player's hand
 function playerHit() {
-  card_drawn = drawCard(deck);
+  let card_drawn = drawCard();
   playerHand.push(card_drawn);
   let card = document.createElement("div");
   card.classList.add("card");
@@ -125,6 +153,15 @@ function playerHit() {
   playerHTML.appendChild(card);
   // update player score
   playerScoreHTML.textContent = calculateHandValue(playerHand);
+  if (calculateHandValue(playerHand) === 21) {
+    if (calculateHandValue(dealerHand) === 21) {
+      middleSpacerHTML.textContent = "Tie!";
+      setTimeout(newRound, 3000);
+    }
+    else {
+      winRound();
+    }
+  }
   // check if the player has busted
   if (calculateHandValue(playerHand) > 21) {
     bustPlayer()
@@ -133,7 +170,7 @@ function playerHit() {
 
 // the doubleDown function doubles the player's hearts risked and adds one card to the player's hand
 function doubleDown() {
-  card_drawn = drawCard(deck);
+  let card_drawn = drawCard();
   playerHand.push(card_drawn);
   let card = document.createElement("div");
   card.classList.add("card");
@@ -145,14 +182,42 @@ function doubleDown() {
     bustPlayer() // bust like normal and lose the other heart
   }
   else {
-    stand();
+    doubleStand();
+  }
+}
+
+function doubleStand() {
+  while (calculateHandValue(dealerHand) < 17) {
+    dealerHit();
+  }
+  if (calculateHandValue(dealerHand) > 21) {
+    score += 100; // extra 100 points for double down
+    bustDealer();
+  }
+  else if (calculateHandValue(playerHand) > calculateHandValue(dealerHand)) {
+    score += 200;
+    scoreHTML.textContent = "Score: " + String(score);
+    middleSpacerHTML.textContent = "You Win! Double Points!";
+    setTimeout(newRound, 3000);
+
+  } else if (calculateHandValue(playerHand) < calculateHandValue(dealerHand)) {
+    loseHeart();
+    loseHeart();
+    middleSpacerHTML.textContent = "You Lose! Two Hearts Lost :(";
+    setTimeout(newRound, 3000);
+  } else {
+    newRound();
   }
 }
 
 // the dealerHit function adds a card to the dealer's hand
 function dealerHit() {
-  dealerHand.push(drawCard(deck));
-  // update dealer score
+  let card_drawn = drawCard();
+  dealerHand.push(card_drawn);
+  let card = document.createElement("div");
+  card.classList.add("card");
+  card.textContent = card_drawn.rank;
+  dealerHTML.appendChild(card);
   dealerScoreHTML.textContent = calculateHandValue(dealerHand);
 }
 
@@ -173,14 +238,14 @@ function stand() {
     bustDealer();
   }
   // determine the winner
-  if (calculateHandValue(playerHand) > calculateHandValue(dealerHand)) {
+  else if (calculateHandValue(playerHand) > calculateHandValue(dealerHand)) {
     winRound();
   } else if (calculateHandValue(playerHand) < calculateHandValue(dealerHand)) {
-    // TODO add a you lose popup
     loseHeart();
+    loseRound();
   } else {
-    // TODO tie popup
-    newRound();
+    middleSpacerHTML.textContent = "Tie!";
+    setTimeout(newRound, 3000);
   }
   
 }
@@ -200,27 +265,35 @@ function loseHeart() {
   }
   else if (hearts === 1) {
     heart1.src = "images/PHeart-Empty.png";
-    // TODO game over function
+    gameOver();
   }
   hearts -= 1;
 }
 
 function bustPlayer() {
-  // TODO popup saying player bust
+  scoreHTML.textContent = "Score: " + String(score);
+  middleSpacerHTML.textContent = "You Busted! You Lose!";
   loseHeart();
-  newRound();
+  setTimeout(newRound, 3000);
 }
 
 function bustDealer() {
-  // TODO popup saying dealer bust
-  winRound();
+  score += 100;
+  scoreHTML.textContent = "Score: " + String(score);
+  middleSpacerHTML.textContent = "Dealer Busted! You Win!";
+  setTimeout(newRound, 3000);
 }
 
 function winRound() {
   score += 100;
   scoreHTML.textContent = "Score: " + String(score);
-  // TODO add a you win popup
-  newRound();
+  middleSpacerHTML.textContent = "You Win!";
+  setTimeout(newRound, 3000);
+}
+
+function loseRound() {
+  middleSpacerHTML.textContent = "You Lose!";
+  setTimeout(newRound, 3000);
 }
 
 function calculateHandValue (hand) {
@@ -241,4 +314,8 @@ function calculateHandValue (hand) {
     aces -= 1;
   }
   return value;
+}
+
+function gameOver() {
+  // TODO
 }
