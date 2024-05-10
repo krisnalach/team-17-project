@@ -106,8 +106,8 @@ const Database = async (dbname) => {
         },
 
         /**
-         * @param {*} username 
-         * @returns 
+         * @param {*} username - unique identifier for a single user
+         * @returns object with status message and user object corresponding to username
          */
         getUser: async(username) => {
             try {
