@@ -22,20 +22,42 @@ const strategy = new Strategy(async(username, password, done) => {
 
     // check to see if the username is registered
     if (!db.userExists(username)) {
+        // no such user
         return done(null, false, {message: "Username does not exist"});
     }
     // hash the password
     const hash = await digestMessage(password);
     
-    if (!db.validateLogin(username, password)) {
+    // check if password is valid
+    if (!db.validateLogin(username, hash)) {
+        // invalid password, no attack mitigation currently
         return done (null, false, {message: "Wrong password"});
     }
-    // success
-    return done(null, username);
+    // success, now get user object
+    const user = db.getUser(username);
+    return done(null, user);
 });
 
 passport.use(strategy);
 
-passport.serializeUser();
+// convert user object to unique identifier
+passport.serializeUser((user, done) => {
+    done(null, user.id);
+});
 
-passport.deserializeUser();
+// convert a unique identifier to a user object
+passport.deserializeUser(async (userid, done) => {
+    const db = await Database("blackjack");
+    const user = await db.getUser(userid);
+    done(null, user);
+});
+
+export default {
+    configure: (app) => {
+        app.use(passport.initialize());
+        app.use(passport.session());
+    },
+    authenticate: (domain, where) => {
+        return passport.authenticate(domain, where);
+    },
+}

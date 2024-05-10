@@ -24,7 +24,7 @@ const initdb = async (dbname) => {
     try {
         const users = await db.get("users");
     } catch (err) {
-        await db.put({_id: "users", data: []});
+        await db.put({_id: "users", data: {}});
     }
 
     // check to see if logins list exists. If not, create it as empty array
@@ -36,6 +36,9 @@ const initdb = async (dbname) => {
 
     await db.close();
 };
+
+// formatting user data:
+// fields that we should have: id, games_played, winrate, ...
 
 /**
  * Factory function to create a database instance with PouchDB
@@ -96,13 +99,30 @@ const Database = async (dbname) => {
                 await db.put(logins);
                 //TODO: add user into users collection? what are default values?
                 await db.close();
+                return {status: "success"};
             } catch(err) {
                 return {status: "error", message: err.message};
             }
         },
 
+        /**
+         * @param {*} username 
+         * @returns 
+         */
+        getUser: async(username) => {
+            try {
+                const db = getDB();
+                const users = await db.get("users");
+                const user = users.data[username];
+                await db.close();
+                return {status: "success", data: user};
+            } catch (err) {
+                return {status: "error", message: err.message};
+            }
+        },
+
         // will need to pass in stats as obj - probably create these on client side
-        updateUser: async (user, ) => {
+        updateUser: async (username, ) => {
 
         },
 
