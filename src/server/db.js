@@ -93,7 +93,7 @@ const Database = async (dbname) => {
                 const db = getDB();
                 const logins = await db.get("logins");
                 logins.data[username] = hash;
-                await db.put(logins)
+                await db.put(logins);
                 //TODO: add user into users collection? what are default values?
                 await db.close();
             } catch(err) {
@@ -106,12 +106,36 @@ const Database = async (dbname) => {
 
         },
 
+        /**
+         * 
+         * @returns 
+         */
         getLeaderboard: async() => {
-
+            try {
+                const db = getDB();
+                const lb = await db.get("lb");
+                await db.close();
+                return {status: "success", data: lb};
+            } catch(err) {
+                return {status: "error", message: err.message};
+            }
         },
-
-        updateLeaderboard: async() => {
-
+                
+        /**
+         * 
+         * @param {*} username 
+         * @param {*} newScore 
+         * @returns 
+         */
+        updateLeaderboard: async(username, newScore) => {
+            try {
+                const db = getDB();
+                const lb = await db.get("lb");
+                //TODO: update leaderboard 
+                await db.close();
+            } catch(err) {
+                return {status: "error", message: err.message};
+            }
         },
 
 
