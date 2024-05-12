@@ -42,15 +42,16 @@ passport.use(strategy);
 
 // convert user object to unique identifier
 passport.serializeUser((user, done) => {
-
-    done(null, user);
+    done(null, user.id);
 });
 
 // convert a unique identifier to a user object
+// this is completely broken, gonna use a janky workaround
 passport.deserializeUser(async (userid, done) => {
+    console.log("when is this being called?");
     const db = await Database("blackjack");
     const user = await db.getUser(userid);
-    done(null, user);
+    done(null, user.data);
 });
 
 export default {

@@ -112,6 +112,7 @@ loginButton.addEventListener("click", async (event) => {
     method: "POST",
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify({username, password}),
+    credentials: "include",
   });
   // check to see if login was successful
   if (response.status !== 200) {
@@ -139,6 +140,7 @@ registerButton.addEventListener("click", async (event) => {
     method: "POST",
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify({username, password}),
+    credentials: "include",
   });
   if (response.status !== 200) {
     alert(`Registration failed: Username is taken`);
@@ -151,7 +153,8 @@ registerButton.addEventListener("click", async (event) => {
 logoutButton.addEventListener("click", async (event) => {
   event.preventDefault();
   const response = await fetch("/logout", {
-    method: "GET",
+    method: "POST",
+    credentials: "include",
   });
   user = await db.logout();
 

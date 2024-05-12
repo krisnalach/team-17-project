@@ -1,6 +1,8 @@
 import express from "express";
+import cors from "express";
 import expressSession from 'express-session';
 import logger from "morgan";
+import cookieParser from "cookie-parser";
 import auth from './auth.js';
 import Database from "./db.js";
 import { fileURLToPath } from "url";
@@ -31,8 +33,13 @@ const sessionConfig = {
 app.use(expressSession(sessionConfig));
 app.use(logger("dev"));
 app.use(express.urlencoded({extended: true}));
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'client')));
+app.use(cors({
+    origin: "http//localhost:3260",
+    credentials: true,
+}));
 
 auth.configure(app);
 
@@ -56,11 +63,13 @@ app.post(
                 res.write(JSON.stringify(info));
                 res.end();
             } else {
-                req.login(user, (err) => {
+                req.logIn(user, (err) => {
                     if (err) {
                         console.log("Login Failed")
                         return next(err);
                     }});
+                // really jank workaround, manually tie user to session
+                req.session.user = req.user;
                 res.writeHead(200, {loginHeaderFields});
                 res.end();
             }
@@ -86,12 +95,14 @@ app.post(
     }
 )
 
-app.get(
-    '/logout', (req, res) => {
-        req.logout();
-        res.redirect('/');
-    }
-);
+app.post('/logout', function(req, res, next){
+    req.logout(function(err) {
+      if (err) { console.log(err); return next(err); }
+      // more jank - delete user tied to session
+      delete req.session.user;
+      res.redirect('/');
+    });
+  });
 
 
 app.listen(port, () => {
