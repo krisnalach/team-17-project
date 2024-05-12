@@ -19,30 +19,31 @@ async function digestMessage(message) {
 
 const strategy = new Strategy(async(username, password, done) => {
     const db = await Database("blackjack");
-
     // check to see if the username is registered
-    if (!db.userExists(username)) {
+    const userExists = await db.userExists(username);
+    if (!userExists.data) {
         // no such user
         return done(null, false, {message: "Username does not exist"});
     }
     // hash the password
     const hash = await digestMessage(password);
-    
     // check if password is valid
-    if (!db.validateLogin(username, hash)) {
+    const valid = await db.validateLogin(username, hash);
+    if (!valid.data) {
         // invalid password, no attack mitigation currently
-        return done (null, false, {message: "Wrong password"});
+        return done(null, false, {message: "Wrong password"});
     }
     // success, now get user object
-    const user = db.getUser(username);
-    return done(null, user);
+    const user = await db.getUser(username);
+    return done(null, user.data);
 });
 
 passport.use(strategy);
 
 // convert user object to unique identifier
 passport.serializeUser((user, done) => {
-    done(null, user.id);
+
+    done(null, user);
 });
 
 // convert a unique identifier to a user object
@@ -60,4 +61,5 @@ export default {
     authenticate: (domain, where) => {
         return passport.authenticate(domain, where);
     },
+    digest: digestMessage,
 }

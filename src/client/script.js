@@ -14,6 +14,9 @@ const loginButton = document.getElementById("login");
 const logoutButton = document.getElementById("logout");
 const welcomeElem = document.getElementById("welcome");
 
+// register elements
+const registerButton = document.getElementById("register");
+
 // stats view elements
 const loggedInStats = document.getElementById("logged-in");
 const loggedOutStats = document.getElementById("logged-out");
@@ -103,23 +106,57 @@ if (user !== -1) {
 // Add event listener for login button
 loginButton.addEventListener("click", async (event) => {
   event.preventDefault();
+  const username = usernameInput.value;
+  const password = passwordInput.value;
+  const response = await fetch(`/login`, {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({username, password}),
+  });
+  // check to see if login was successful
+  if (response.status !== 200) {
+    // reject login
+    const msg = await response.json();
+    alert(`Login attempt failed: ${msg.message}`);
+  } else {
+    // login successful, continue as normal
+    // update user variable
+    user = usernameInput.value;
+    await db.login(user);
+    welcomeElem.innerHTML = `Welcome, ${user}!`;
 
-  // update user variable
-  user = usernameInput.value;
-  await db.login(user);
-  welcomeElem.innerHTML = `Welcome, ${user}!`;
+    renderLogin(user);
+    window.location.reload();
+  }
+  
+});
 
-  renderLogin(user);
-  window.location.reload();
+registerButton.addEventListener("click", async (event) => {
+  event.preventDefault();
+  const username = usernameInput.value;
+  const password = passwordInput.value;
+  const response = await fetch(`/register`, {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({username, password}),
+  });
+  if (response.status !== 200) {
+    alert(`Registration failed: Username is taken`);
+  } else {
+    alert(`Registration succeeded: Account ${username} has been created`);
+  }
 });
 
 // Add event listener for logout button
 logoutButton.addEventListener("click", async (event) => {
   event.preventDefault();
+  const response = await fetch("/logout", {
+    method: "GET",
+  });
   user = await db.logout();
 
   renderLogin(user);
-  window.location.reload();
+  //window.location.reload();
 });
 
 /**

@@ -95,9 +95,18 @@ const Database = async (dbname) => {
             try {
                 const db = getDB();
                 const logins = await db.get("logins");
+                const users = await db.get("users");
+                const exists = logins.data.hasOwnProperty(username);
+                if (exists) {
+                    await db.close();
+                    return {status: "error", message: "Username is taken"};
+                }
+                // add login information
                 logins.data[username] = hash;
                 await db.put(logins);
-                //TODO: add user into users collection? what are default values?
+                // add user information
+                users.data[username] = {id: username, games_played: 0, wins: 0, losses: 0, winrate: 0, score: 0};
+                await db.put(users);
                 await db.close();
                 return {status: "success"};
             } catch(err) {
