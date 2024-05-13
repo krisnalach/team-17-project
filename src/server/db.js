@@ -173,23 +173,24 @@ const Database = async (dbname) => {
             try {
                 const db = getDB();
                 const lb = await db.get("lb");
+                let inLeaderboard = false;
                 let entries = lb.data;
-                for (let i = 0; i < entries.length; i++) { //go through list of stuff
-                    if(entries[i].name === username) { //if username is already in the leaderboard change the score
-                        entries[i].score = newScore;
+                for (let i = 0; i < entries.length; i++) { //go through list of entries
+                    if (entries[i].name === username) { //if username is already in the leaderboard change the score
+                        entries[i].score = Math.max(newScore, entries[i].score);
+                        inLeaderboard = true;
                         break;
-                    } else if ( i === entries.length - 1){ 
-                        /* assuming updateLeaderboard is only called when the score is 
-                        actually higher than one of the positions then the last one should be replaced
-                        */
-                        entries[i].name = username;
-                        entries[i].score = newScore;
                     }
+                }
+                //add to the leaderboard if not in
+                if (!inLeaderboard) {
+                    entries.push({name: username, score: newScore});
                 }
                 entries.sort((a, b) => b.score - a.score); //sort the array of objects to keep the original format
                 lb.data = entries;
                 await db.put(lb);
                 await db.close();
+                return {status: "success"}
             } catch(err) {
                 return {status: "error", message: err.message};
             }

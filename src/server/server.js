@@ -204,7 +204,15 @@ app.get('/getCurrentUser', async (req, res) => {
 
 app.put('/updateLeaderboard', async(req, res) => {
     const db = await Database("blackjack");
-
+    const {username, score} = req.body;
+    console.log(username);
+    const lbRet = await db.updateLeaderboard(username, score);
+    if (lbRet.status === "success") {
+        res.writeHead(200);
+    } else {
+        res.writeHead(409);
+    }
+    res.end();
 });
 
 app.put('/updateGames', async(req, res) => {

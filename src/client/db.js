@@ -114,7 +114,6 @@ export async function getUser() {
     const response = await db.get("currUser");
     return response["name"];
   } catch (err) {
-    console.error(err);
     return -1;
   }
 }

@@ -3,7 +3,7 @@ const leaderboardRes = await fetch("/getLeaderboard", {
   credentials: "include",
 });
 
-let leaderboard = []
+let leaderboard = [];
 
 // if fetch fails, just display an empty array
 if (leaderboardRes.status === 200) {

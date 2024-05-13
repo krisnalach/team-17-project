@@ -1,3 +1,4 @@
+import * as db from "./db.js";
 // code for keeping track of the deck of cards and game state for the blackjack game
 
 // suits, ranks, and values used to create the deck of cards
@@ -47,6 +48,7 @@ doubleButton.addEventListener("click", doubleDown);
 splitButton.addEventListener("click", split);
 
 let score = 0;
+const username = await db.getUser();
 
 // THIS CODE ACTUALLY STARTS THE GAME
 newGame();
@@ -329,7 +331,23 @@ function gameOver() {
   newGameButton.addEventListener("click", newGame);
   middleSpacerHTML.appendChild(newGameButton);
   // TODO save the score to the server
-
+  // deciding to go with .then() approach since most functions here are not async
+  if (username !== -1) { // only update leaderboard if user is logged in
+    fetch('/updateLeaderboard', {
+      method: "PUT",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({username, score}),
+      credentials: "include",
+    })
+    .then(response => {
+      // dont need to do anything
+      console.log("leaderboard successfully updated");
+    })
+    .catch(err => {
+      console.error(err);
+    });
+  }
+  
   
 }
 
