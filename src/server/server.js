@@ -13,7 +13,7 @@ import path from "path";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(dirname(__filename));
 
-const loginHeaderFields = { "Content-Type": "application/json"};
+const jsonHeaderFields = { "Content-Type": "application/json"};
 
 // Cretae Express app
 const app = express();
@@ -29,6 +29,20 @@ const sessionConfig = {
 
 // Database operations
 
+/**
+ * Get the user stats object of a user from the database
+ * @param {string} username - username identifier to find userStats 
+ * @returns - userStats object of user with name "username"
+ */
+async function getUserStats(username) {
+    const db = await Database("blackjack");
+    const userStats = await db.getUser(username);
+    if (userStats.status === "error") {
+        return {failed: true}; //TODO: change this
+    } else {
+        return userStats.data;
+    }
+}
 
 app.use(expressSession(sessionConfig));
 app.use(logger("dev"));
@@ -53,13 +67,14 @@ function checkLoggedIn(req, res, next) {
     }
 }
 
+
 // Routing requests
 app.post(
     '/login',
     (req, res, next) => {
         auth.authenticate('local', (err, user, info) => {
             if (user === false) {
-                res.writeHead(401, {loginHeaderFields});
+                res.writeHead(401, {jsonHeaderFields});
                 res.write(JSON.stringify(info));
                 res.end();
             } else {
@@ -70,7 +85,7 @@ app.post(
                     }});
                 // really jank workaround, manually tie user to session
                 req.session.user = req.user;
-                res.writeHead(200, {loginHeaderFields});
+                res.writeHead(200, {jsonHeaderFields});
                 res.end();
             }
         }) (req, res, next);
@@ -86,7 +101,7 @@ app.post(
         const hash = await auth.digest(password);
         const addUserRet = await db.addUser(username, hash);
         if (addUserRet.status === "success") {
-            res.writeHead(200, loginHeaderFields);
+            res.writeHead(200, jsonHeaderFields);
         } else {
             res.writeHead(400, {"Content-type": "text/html"});
             res.write(addUserRet.message);
@@ -104,6 +119,17 @@ app.post('/logout', function(req, res, next){
     });
   });
 
+app.get('/getUserStats', async (req, res) => {
+    const {username} = req.body;
+    const userStats = await getUserStats(username);
+    if (userStats.failed) {
+        res.writeHead(404, jsonHeaderFields);
+    } else {
+        res.writeHead(200, jsonHeaderFields);
+        res.write(JSON.stringify(userStats));
+    }
+    res.end();
+});
 
 app.listen(port, () => {
     console.log(`App now listening at http://localhost:${port}`);

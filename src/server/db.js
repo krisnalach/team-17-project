@@ -1,6 +1,6 @@
 import PouchDB from "pouchdb";
 /**
- * 
+ * Create and initialize a PouchDB databse named dbname
  * @param {string} dbname - name of the database
  */
 const initdb = async (dbname) => {
@@ -153,7 +153,7 @@ const Database = async (dbname) => {
                 const db = getDB();
                 const lb = await db.get("lb");
                 await db.close();
-                return {status: "success", data: lb};
+                return {status: "success", data: lb.data};
             } catch(err) {
                 return {status: "error", message: err.message};
             }
@@ -171,8 +171,8 @@ const Database = async (dbname) => {
                 const lb = await db.get("lb");
                 let entries = lb.data;
                 for (let i = 0; i < entries.length; i++) { //go through list of stuff
-                    if(entries[i].name === username) { //if username is already in the leaderboard change the score
-                        entries[i].score = newScore;
+                    if (entries[i].name === username) { //if username is already in the leaderboard change the score
+                        entries[i].score = Math.max(entries[i].score, newScore);
                         break;
                     } else if ( i === entries.length - 1){ 
                         /* assuming updateLeaderboard is only called when the score is 
