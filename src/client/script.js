@@ -1,5 +1,5 @@
 "use strict";
-import * as ls from "./db.js";
+import * as db from "./db.js";
 import { renderStats } from "./stats.js";
 import { renderLeaderboard } from "./leaderboard.js";
 
@@ -54,7 +54,7 @@ document.querySelectorAll(".table").forEach((button) => {
   button.addEventListener("click", async (event) => {
     navigate("table-view");
     loadNav();
-    await ls.updateCurrView("table-view");
+    await db.updateCurrView("table-view");
     footer.style.display = "none";
   });
 });
@@ -64,7 +64,7 @@ document.querySelectorAll(".stats").forEach((button) => {
     navigate("stats-view");
     checkRenderStats();
     loadNav();
-    await ls.updateCurrView("stats-view");
+    await db.updateCurrView("stats-view");
   });
 });
 
@@ -72,7 +72,7 @@ document.querySelectorAll(".leaderboard").forEach((button) => {
   button.addEventListener("click", async (event) => {
     navigate("lb-view");
     loadNav();
-    await ls.updateCurrView("lb-view");
+    await db.updateCurrView("lb-view");
   });
 });
 
@@ -80,13 +80,13 @@ document.querySelectorAll(".tutorial").forEach((button) => {
   button.addEventListener("click", async (event) => {
     navigate("tutorial-view");
     loadNav();
-    await ls.updateCurrView("tutorial-view");
+    await db.updateCurrView("tutorial-view");
   });
 });
 
 // Only render the navigation bar on pages that ARENT the homepage
 // Necessary for proper reloading experience
-const currView = await ls.getCurrView();
+const currView = await db.getCurrView();
 if (currView !== "home-view") {
   loadNav();
   footer.style.display = "none";
@@ -123,15 +123,7 @@ loginButton.addEventListener("click", async (event) => {
     // login successful, continue as normal
     // update user variable
     user = usernameInput.value;
-    
-    // need to fetch user stats to store in local storage
-    const userStats = await fetch(`/getUserStats`, {
-      method: "GET",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({user}),
-      credentials: "include",
-    });
-    
+    await db.login(user);
     welcomeElem.innerHTML = `Welcome, ${user}!`;
 
     renderLogin(user);

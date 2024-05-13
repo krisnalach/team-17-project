@@ -1,5 +1,60 @@
-const db = new PouchDB("local");
-await initdb("local");
+let db = null;
+db = new PouchDB("mydb");
+
+const users = {
+  john: {
+    games_played: 100,
+    wins: 100,
+    losses: 0,
+    highest_bid: 10000,
+    all_in_count: 50,
+    blackjacks: 17,
+  },
+  phil: {
+    games_played: 100,
+    wins: 75,
+    losses: 25,
+    highest_bid: 3000,
+    all_in_count: 3,
+    blackjacks: 13,
+  },
+  stu: {
+    games_played: 100,
+    wins: 45,
+    losses: 55,
+    highest_bid: 70,
+    all_in_count: 1000,
+    blackjacks: 1,
+  },
+};
+
+const prepop_lb = [
+  { name: "John", score: 100 },
+  { name: "Phil", score: 90 },
+  { name: "Joe", score: 80 },
+  { name: "Mario", score: 70 },
+  { name: "Stu", score: 60 },
+];
+
+/**
+ * Initialize the database
+ */
+async function init() {
+  try {
+    // pre-populate with leaderboard
+    await db.put({
+      _id: "lb",
+      leaderboard: prepop_lb,
+    });
+    // set initial page to home
+    await db.put({
+      _id: "currView",
+      view: "home-view",
+    });
+  } catch (err) {
+    console.error(err);
+  }
+}
 
 /**
  * Change the current view in local storage
@@ -32,55 +87,103 @@ export async function getCurrView() {
 }
 
 /**
- * Get the statistics of the currently logged in user
- * @returns - the user's stats, an object with fields:
- *            "winrate", "highest_bid", "all_in_cnt", "blackjacks" SUBJECT TO CHANGE
+ * (INFO) This should probably be done automatically
+ * on new account creation / first game played
+ * @param {*} obj
  */
-export async function getUserStats() {
+export async function addToLeaderboard(obj) {
   try {
-    const userStats = await db.get("userStats");
-    await db.close();
-    return userStats.data;
+    let lb = await db.get("lb");
+    lb["leaderboard"].push(obj);
+    await db.put({
+      _id: "lb",
+      leaderboard: lb,
+    });
   } catch (err) {
     console.error(err);
   }
 }
 
 /**
- * Store the stats object passed in to local storage for quick access
- * @param {obj} stats - stats object for the current user
+ * Get the leaderboard information from the database
+ * @returns - the leaderboard as an array of objects
  */
-export async function storeUserStats(stats) {
+export async function getLeaderboard() {
   try {
-    const userStats = await db.get("userStats");
-    userStats.data = stats;
-    userStats.exists = true;
-    await db.put(userStats);
-    await db.close();
+    const response = await db.get("lb");
+    return response["leaderboard"];
   } catch (err) {
-    console.log("Error");
+    console.error(err);
   }
 }
 
 /**
- * Create and initialize a local storage database using PouchDB
- * @param {string} dbname - name of the local storage database
+ * Get the statistics of the currently logged in user
+ * @returns - the user's stats, an object with fields:
+ *            "winrate", "highest_bid", "all_in_cnt", "blackjacks" SUBJECT TO CHANGE
  */
-const initdb = async (dbname) => {
-  const db = new PouchDB(dbname);
-
+export async function getUserStats() {
   try {
-    const userStats = await db.get("userStats");
+    const userStats = await db.get("currUser");
+    return userStats["stats"];
   } catch (err) {
-    await db.put({_id: "userStats", data: {}, exists: false});
+    console.error(err);
   }
-
+}
+/**
+ * Gets the current user that is logged in.
+ * Assumes only one username is stored in local storage
+ * at a time.
+ * @returns - the username of the currently logged in user, -1 otherwise
+ */
+export async function getUser() {
   try {
-    const currView = await db.get("currView");
+    const response = await db.get("currUser");
+    return response["name"];
   } catch (err) {
-    await db.put({_id: "currView", view: "home-view"});
+    console.error(err);
+    return -1;
   }
-  
-  await db.close();
+}
 
- }
+/**
+ * Log in a user by adding their username (and corresonding stats)
+ * into local storage
+ * @param {string} name - the username to put into local storage
+ */
+export async function login(name) {
+  try {
+    const response = await db.put({
+      _id: "currUser",
+      name: name,
+      stats: users[name],
+    });
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+/**
+ * Log out a user by removing their username from
+ * local storage
+ * @param {string} name - the username to be removed from local stoarge
+ */
+export async function logout() {
+  try {
+    const response = await db.get("currUser");
+    await db.remove(response);
+    return -1;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+// Prevent re-initializing the mock database
+try {
+  // See if it is already pre-populated
+  const response = await db.get("lb");
+} catch (err) {
+  // If not, initialize it
+  await init();
+  console.error(err);
+}
