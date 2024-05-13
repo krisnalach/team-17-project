@@ -263,6 +263,9 @@ function loseHeart() {
   else if (hearts === 1) {
     heart1.src = "images/PHeart-Empty.png";
   }
+  else if(hearts === 0){
+    gameOver();
+  }
   hearts -= 1;
 }
 
@@ -326,6 +329,8 @@ function gameOver() {
   newGameButton.addEventListener("click", newGame);
   middleSpacerHTML.appendChild(newGameButton);
   // TODO save the score to the server
+
+  
 }
 
 // the newGame function resets the game state
