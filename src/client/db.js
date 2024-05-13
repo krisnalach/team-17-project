@@ -151,12 +151,12 @@ export async function getUser() {
  * into local storage
  * @param {string} name - the username to put into local storage
  */
-export async function login(name) {
+export async function login(name, stats) {
   try {
     const response = await db.put({
       _id: "currUser",
       name: name,
-      stats: users[name],
+      stats: stats,
     });
   } catch (err) {
     console.error(err);

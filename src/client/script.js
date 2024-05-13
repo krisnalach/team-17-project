@@ -123,9 +123,17 @@ loginButton.addEventListener("click", async (event) => {
     // login successful, continue as normal
     // update user variable
     user = usernameInput.value;
-    await db.login(user);
-    welcomeElem.innerHTML = `Welcome, ${user}!`;
 
+    // "log in" user by placing username and stats in local storage
+    const statRes = await fetch("/getUserStats", {
+      method: "GET",
+      credentials: "include",
+    });
+    const stats = await statRes.json();
+    await db.login(user, stats);
+    
+    // update page
+    welcomeElem.innerHTML = `Welcome, ${user}!`;
     renderLogin(user);
     window.location.reload();
   }
@@ -159,7 +167,7 @@ logoutButton.addEventListener("click", async (event) => {
   user = await db.logout();
 
   renderLogin(user);
-  //window.location.reload();
+  window.location.reload();
 });
 
 /**

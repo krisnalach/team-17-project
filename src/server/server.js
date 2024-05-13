@@ -60,12 +60,25 @@ auth.configure(app);
 
 
 // Middleware
+
+/**
+ * Check to see if there is a user currently logged in
+ * @param {obj} req - request sent by the client
+ * @returns - true is a user is logged in, false otherwise
+ */
 function isLoggedIn(req) {
     return req.session.hasOwnProperty("signedIn") && req.session.signedIn;
 }
 
 
 // Routing requests
+
+/**
+ * Routing for login requests
+ * @param {string} - express path
+ * @param {function} - callback function to handle logging in
+ * @writes - 200 status if successful, 401 if failed with error message
+ */ 
 app.post(
     '/login',
     (req, res, next) => {
@@ -81,6 +94,7 @@ app.post(
                         return next(err);
                     }});
                 // really jank workaround, manually tie user to session
+                // and tie signedIn check to session
                 req.session.user = req.user;
                 req.session.signedIn = true;
                 console.log(Object.keys(req.session));
@@ -91,6 +105,12 @@ app.post(
     }
 );
 
+/**
+ * Routing for registering accounts
+ * @param {string} - express path
+ * @param {function} - callback function to handle registering
+ * @writes - 200 status if successful, 409 if failed with error message
+ */ 
 app.post(
     '/register',
     async (req, res) => {
@@ -102,13 +122,19 @@ app.post(
         if (addUserRet.status === "success") {
             res.writeHead(200, jsonHeaderFields);
         } else {
-            res.writeHead(400, {"Content-type": "text/html"});
+            res.writeHead(409, {"Content-type": "text/html"});
             res.write(addUserRet.message);
         }
         res.end();
     }
 )
 
+/**
+ * Routing for logout
+ * @param {string} - express path
+ * @param {function} - callback function to handle logging out
+ * @writes - redirects user upon successful logout to '/'
+ */ 
 app.post('/logout', function(req, res, next){
     console.log(Object.keys(req.session));
     req.logout(function(err) {
@@ -121,10 +147,17 @@ app.post('/logout', function(req, res, next){
     });
   });
 
+/**
+ * Routing for obtaining user statistics
+ * @param {string} - express path
+ * @param {function} - callback function to handle stat gathering
+ * @writes - 200 status if successful, along with user stats object
+ *           401 if failed with associated error message
+ */ 
 app.get('/getUserStats', async (req, res) => {
     console.log(Object.keys(req.session));
     if (!isLoggedIn(req)) {
-        res.writeHead(404, jsonHeaderFields);
+        res.writeHead(401, jsonHeaderFields);
         res.write(JSON.stringify({message: "User not logged in"}));
     } else {
         res.writeHead(200, jsonHeaderFields);
@@ -133,6 +166,13 @@ app.get('/getUserStats', async (req, res) => {
     res.end();
 });
 
+/**
+ * Routing for obtaining leaderboard
+ * @param {string} - express path
+ * @param {function} - callback function to handle leaderboard GET
+ * @writes - 200 status if successful, along with leaderboard list
+ *           404 if failed
+ */ 
 app.get('/getLeaderboard', async (req, res) => {
     const db = await Database("blackjack");
     const lb = await db.getLeaderboard();
@@ -144,6 +184,23 @@ app.get('/getLeaderboard', async (req, res) => {
     }
     res.end();
 })
+
+/**
+ * Routing for obtaining the currently logged in user
+ * @param {string} - express path
+ * @param {function} - callback function to handle user GET
+ * @writes - 200 status if successful, along with user's username
+ *           401 if failed
+ */ 
+app.get('/getCurrentUser', async (req, res) => {
+    if (isLoggedIn(req)) {
+        res.writeHead(200, {"Content-Type": "text/plain"})
+        res.write(req.session.user.id);
+    } else {
+        res.writeHead(401, {"Content-Type": "text/plain"})
+    }
+    res.end();
+});
 
 app.put('/updateLeaderboard', async(req, res) => {
     const db = await Database("blackjack");
