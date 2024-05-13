@@ -131,8 +131,17 @@ const Database = async (dbname) => {
         },
 
         // will need to pass in stats as obj - probably create these on client side
-        updateUser: async (username, ) => {
-
+        updateUser: async (username, stats) => {
+            try {
+                const db = getDB();
+                const users = await db.get("users");
+                users.data[username] = stats;
+                await db.put(users);
+                await db.close();
+                return {status: "success"};
+            } catch (err) {
+                return {status: "error", message: err.message};
+            }
         },
 
         /**
@@ -151,7 +160,7 @@ const Database = async (dbname) => {
         },
                 
         /**
-         * 
+         * Upadate leaderboard and sort the array if out of order
          * @param {*} username 
          * @param {*} newScore 
          * @returns 
@@ -160,7 +169,22 @@ const Database = async (dbname) => {
             try {
                 const db = getDB();
                 const lb = await db.get("lb");
-                //TODO: update leaderboard 
+                let entries = lb.data;
+                for (let i = 0; i < entries.length; i++) { //go through list of stuff
+                    if(entries[i].name === username) { //if username is already in the leaderboard change the score
+                        entries[i].score = newScore;
+                        break;
+                    } else if ( i === entries.length - 1){ 
+                        /* assuming updateLeaderboard is only called when the score is 
+                        actually higher than one of the positions then the last one should be replaced
+                        */
+                        entries[i].name = username;
+                        entries[i].score = newScore;
+                    }
+                }
+                entries.sort((a, b) => b.score - a.score); //sort the array of objects to keep the original format
+                lb.data = entries;
+                await db.put(lb);
                 await db.close();
             } catch(err) {
                 return {status: "error", message: err.message};
