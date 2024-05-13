@@ -13,7 +13,7 @@ import path from "path";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(dirname(__filename));
 
-const loginHeaderFields = { "Content-Type": "application/json"};
+const jsonHeaderFields = { "Content-Type": "application/json"};
 
 // Cretae Express app
 const app = express();
@@ -29,6 +29,21 @@ const sessionConfig = {
 
 // Database operations
 
+/**
+ * Get the user stats object of a user from the database
+ * @param {string} username - username identifier to find userStats 
+ * @returns - userStats object of user with name "username"
+ */
+async function getUserStats(username) {
+    const db = await Database("blackjack");
+    const userStats = await db.getUser(username);
+    console.log(userStats);
+    if (userStats.status === "error") {
+        return {failed: true}; //TODO: change this
+    } else {
+        return userStats.data;
+    }
+}
 
 app.use(expressSession(sessionConfig));
 app.use(logger("dev"));
@@ -45,13 +60,10 @@ auth.configure(app);
 
 
 // Middleware
-function checkLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-        next();
-    } else {
-        console.log("login denied");
-    }
+function isLoggedIn(req) {
+    return req.session.hasOwnProperty("signedIn") && req.session.signedIn;
 }
+
 
 // Routing requests
 app.post(
@@ -59,7 +71,7 @@ app.post(
     (req, res, next) => {
         auth.authenticate('local', (err, user, info) => {
             if (user === false) {
-                res.writeHead(401, {loginHeaderFields});
+                res.writeHead(401, jsonHeaderFields);
                 res.write(JSON.stringify(info));
                 res.end();
             } else {
@@ -70,7 +82,9 @@ app.post(
                     }});
                 // really jank workaround, manually tie user to session
                 req.session.user = req.user;
-                res.writeHead(200, {loginHeaderFields});
+                req.session.signedIn = true;
+                console.log(Object.keys(req.session));
+                res.writeHead(200, jsonHeaderFields);
                 res.end();
             }
         }) (req, res, next);
@@ -86,7 +100,7 @@ app.post(
         const hash = await auth.digest(password);
         const addUserRet = await db.addUser(username, hash);
         if (addUserRet.status === "success") {
-            res.writeHead(200, loginHeaderFields);
+            res.writeHead(200, jsonHeaderFields);
         } else {
             res.writeHead(400, {"Content-type": "text/html"});
             res.write(addUserRet.message);
@@ -96,13 +110,53 @@ app.post(
 )
 
 app.post('/logout', function(req, res, next){
+    console.log(Object.keys(req.session));
     req.logout(function(err) {
       if (err) { console.log(err); return next(err); }
       // more jank - delete user tied to session
+      console.log(Object.keys(req.session));
       delete req.session.user;
+      delete req.session.signedIn;
       res.redirect('/');
     });
   });
+
+app.get('/getUserStats', async (req, res) => {
+    console.log(Object.keys(req.session));
+    if (!isLoggedIn(req)) {
+        res.writeHead(404, jsonHeaderFields);
+        res.write(JSON.stringify({message: "User not logged in"}));
+    } else {
+        res.writeHead(200, jsonHeaderFields);
+        res.write(JSON.stringify(req.session.user));
+    }
+    res.end();
+});
+
+app.get('/getLeaderboard', async (req, res) => {
+    const db = await Database("blackjack");
+    const lb = await db.getLeaderboard();
+    if (lb.status === "success") {
+        res.writeHead(200, jsonHeaderFields)
+        res.write(JSON.stringify(lb.data));
+    } else {
+        res.writeHead(404, jsonHeaderFields);
+    }
+    res.end();
+})
+
+app.put('/updateLeaderboard', async(req, res) => {
+    const db = await Database("blackjack");
+
+});
+
+app.put('/updateGames', async(req, res) => {
+
+});
+
+app.delete('/deleteGame', async(req, res) => {
+
+});
 
 
 app.listen(port, () => {

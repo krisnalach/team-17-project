@@ -122,6 +122,10 @@ const Database = async (dbname) => {
             try {
                 const db = getDB();
                 const users = await db.get("users");
+                if (!users.data.hasOwnProperty(username)) {
+                    await db.close();
+                    return {status: "error", message: `User ${username} does not exist`};
+                }
                 const user = users.data[username];
                 await db.close();
                 return {status: "success", data: user};
