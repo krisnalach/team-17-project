@@ -157,7 +157,7 @@ const Database = async (dbname) => {
                 const db = getDB();
                 const lb = await db.get("lb");
                 await db.close();
-                return {status: "success", data: lb};
+                return {status: "success", data: lb.data};
             } catch(err) {
                 return {status: "error", message: err.message};
             }

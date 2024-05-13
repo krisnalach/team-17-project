@@ -1,6 +1,14 @@
-import * as db from "./db.js";
+const leaderboardRes = await fetch("/getLeaderboard", {
+  method: "GET",
+  credentials: "include",
+});
 
-let leaderboard = await db.getLeaderboard();
+let leaderboard = []
+
+// if fetch fails, just display an empty array
+if (leaderboardRes.status === 200) {
+  leaderboard = await leaderboardRes.json();
+}
 
 /**
  * Render the leaderboard

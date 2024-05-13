@@ -1,33 +1,6 @@
 let db = null;
 db = new PouchDB("mydb");
 
-const users = {
-  john: {
-    games_played: 100,
-    wins: 100,
-    losses: 0,
-    highest_bid: 10000,
-    all_in_count: 50,
-    blackjacks: 17,
-  },
-  phil: {
-    games_played: 100,
-    wins: 75,
-    losses: 25,
-    highest_bid: 3000,
-    all_in_count: 3,
-    blackjacks: 13,
-  },
-  stu: {
-    games_played: 100,
-    wins: 45,
-    losses: 55,
-    highest_bid: 70,
-    all_in_count: 1000,
-    blackjacks: 1,
-  },
-};
-
 const prepop_lb = [
   { name: "John", score: 100 },
   { name: "Phil", score: 90 },

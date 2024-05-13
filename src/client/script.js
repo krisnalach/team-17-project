@@ -164,6 +164,7 @@ logoutButton.addEventListener("click", async (event) => {
     method: "POST",
     credentials: "include",
   });
+  // "log out" a user by removing them from local storage
   user = await db.logout();
 
   renderLogin(user);
