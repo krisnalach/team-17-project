@@ -11,6 +11,7 @@
 - Register an account by providing a username and a password
 - Log in to an existing account to have access to leaderboard updates or the statistics page
 - Usernames must be unique: duplicate usernames will be rejected
+- One user exists by default: username: `admin`, password: `password`
 
 ## Limitations
 - UI designs aren't fully fleshed out yet, but the general idea of how they'll look is there
