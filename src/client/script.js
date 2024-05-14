@@ -115,10 +115,12 @@ loginButton.addEventListener("click", async (event) => {
     credentials: "include",
   });
   // check to see if login was successful
-  if (response.status !== 200) {
+  //if (response.status !== 200) {
+    if (!response.ok) {
     // reject login
-    const msg = await response.json();
-    alert(`Login attempt failed: ${msg.message}`);
+    //const msg = await response.json();
+    //alert(`Login attempt failed: ${msg.message}`);
+    alert(`Login attempt failed: ` + response.status);
   } else {
     // login successful, continue as normal
     // update user variable
@@ -140,22 +142,24 @@ loginButton.addEventListener("click", async (event) => {
   
 });
 
-registerButton.addEventListener("click", async (event) => {
-  event.preventDefault();
-  const username = usernameInput.value;
-  const password = passwordInput.value;
-  const response = await fetch(`/register`, {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({username, password}),
-    credentials: "include",
+  registerButton.addEventListener("click", async (event) => {
+    event.preventDefault();
+    const username = usernameInput.value;
+    const password = passwordInput.value;
+    const response = await fetch(`/register`, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({username, password}),
+      credentials: "include",
+    });
+    if (response.status === 200) {
+      alert(`Registration succeeded: Account ${username} has been created`);
+      //alert(`Registration failed: Username is taken`); if !==
+    } else {
+      //alert(`Registration succeeded: Account ${username} has been created`);
+      alert(`Registration failed: ` + response.status);
+    }
   });
-  if (response.status !== 200) {
-    alert(`Registration failed: Username is taken`);
-  } else {
-    alert(`Registration succeeded: Account ${username} has been created`);
-  }
-});
 
 // Add event listener for logout button
 logoutButton.addEventListener("click", async (event) => {

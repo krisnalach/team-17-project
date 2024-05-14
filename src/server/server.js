@@ -15,9 +15,10 @@ const __dirname = dirname(dirname(__filename));
 
 const jsonHeaderFields = { "Content-Type": "application/json"};
 
-// Cretae Express app
+// Create Express app
 const app = express();
 const port = process.env.PORT || 3260;
+//const port = process.env.PORT || 3000;
 
 // Create session configuration
 const sessionConfig = {
@@ -117,13 +118,17 @@ app.post(
         const db = await Database("blackjack");
         const {username, password} = req.body;
         // encrypt password
-        const hash = await auth.digest(password);
+       try{ const hash = await auth.digest(password);
         const addUserRet = await db.addUser(username, hash);
         if (addUserRet.status === "success") {
             res.writeHead(200, jsonHeaderFields);
         } else {
             res.writeHead(409, {"Content-type": "text/html"});
             res.write(addUserRet.message);
+        }}  catch(error){
+            console.error('Error during registration:', error);
+            res.writeHead(500, { "Content-type": "text/html" });
+            res.write('Internal Server Error');
         }
         res.end();
     }
