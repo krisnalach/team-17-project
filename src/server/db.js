@@ -54,7 +54,8 @@ const Database = async (dbname) => {
         /**
          * Check to see if the user exists in the database
          * @param {string} username 
-         * @returns - object with status message and an associated data value (T/F)
+         * @returns - object with status "success" message and an associated data value (T/F)
+         *            or "error" status and associated error message
          */
         userExists: async (username) => {
             try {
@@ -69,10 +70,12 @@ const Database = async (dbname) => {
         },
         
         /**
-         * 
-         * @param {*} username 
-         * @param {*} hash 
-         * @returns 
+         * Check if the passed in username and hash exists in the database,
+         * indicating a valid login attempt
+         * @param {*} username - the user's username
+         * @param {*} hash - the user's password, hashed
+         * @returns - "success" status object 
+         *            or "error" status and associated error message
          */
         validateLogin: async (username, hash) => {
             try {
@@ -87,10 +90,11 @@ const Database = async (dbname) => {
         },
 
         /**
-         * 
-         * @param {*} username 
-         * @param {*} hash 
-         * @returns 
+         * Add a username, hash pair to the database and create an 
+         * empty stats object associated with their username
+         * @param {*} username - the user's username
+         * @param {*} hash - the user's password, hashed
+         * @returns - "success" status object or "error" status and associated error message
          */
         addUser: async(username, hash) => {
             try {
@@ -116,8 +120,10 @@ const Database = async (dbname) => {
         },
 
         /**
+         * Get a user's stats object if they exist in the database
          * @param {*} username - unique identifier for a single user
-         * @returns object with status message and user object corresponding to username
+         * @returns - object with status message and user object corresponding to username,
+         *            or "error" status and associated error message
          */
         getUser: async(username) => {
             try {
@@ -135,7 +141,13 @@ const Database = async (dbname) => {
             }
         },
 
-        // will need to pass in stats as obj - probably create these on client side
+        /**
+         * Update a user by replacing their stats object with passed in
+         * stats arg.
+         * @param {string} username - a user's username
+         * @param {obj} stats - stats object of a user
+         * @returns - "success" status object or "error" status and associated error message
+         */
         updateUser: async (username, stats) => {
             try {
                 const db = getDB();
@@ -150,8 +162,9 @@ const Database = async (dbname) => {
         },
 
         /**
-         * 
-         * @returns 
+         * Get the leaderboard from the database
+         * @returns - "success" status and leaderboard list as data
+         *            or "error" status and associated error message
          */
         getLeaderboard: async() => {
             try {
@@ -168,7 +181,7 @@ const Database = async (dbname) => {
          * Upadate leaderboard and sort the array if out of order
          * @param {*} username 
          * @param {*} newScore 
-         * @returns 
+         * @returns "success" status object or "error" status and associated error message
          */
         updateLeaderboard: async(username, newScore) => {
             try {
@@ -197,6 +210,11 @@ const Database = async (dbname) => {
             }
         },
 
+        /**
+         * Delete all records of an account in the database's documents
+         * @param {string} username - user's username
+         * @returns "success" status object or "error" status and associated error message
+         */
         deleteAccount: async(username) => {
             try {
                 const db = getDB();

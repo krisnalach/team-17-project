@@ -183,6 +183,14 @@ app.get('/getCurrentUser', async (req, res) => {
     res.end();
 });
 
+
+/**
+ * Routing for updating the leaderboard
+ * @param {string} - express path
+ * @param {function} - callback function to handle leaderboard update
+ * @writes - 200 status if successful
+ *           409 if failed
+ */ 
 app.put('/updateLeaderboard', async(req, res) => {
     const db = await Database("blackjack");
     const {username, score} = req.body;
@@ -195,6 +203,14 @@ app.put('/updateLeaderboard', async(req, res) => {
     res.end();
 });
 
+
+/**
+ * Routing for updating a user's stats in the databases
+ * @param {string} - express path
+ * @param {function} - callback function to handle the update
+ * @writes - 200 status if successful
+ *           409 if failed
+ */ 
 app.put('/updateUser', async(req, res) => {
     const db = await Database("blackjack");
     const {username, stats} = req.body;
@@ -207,6 +223,15 @@ app.put('/updateUser', async(req, res) => {
     res.end();
 });
 
+
+/**
+ * Routing for deleting a user
+ * Deletes user from leaderboard, logins document, users document
+ * @param {string} - express path
+ * @param {function} - callback function to handle the delete
+ * @writes - 200 status if successful, along with success message
+ *           401 if failed, along with error message
+ */ 
 app.delete('/deleteAccount', async(req, res) => {
     const db = await Database("blackjack");
     const {username} = req.body;

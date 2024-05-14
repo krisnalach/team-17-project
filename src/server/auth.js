@@ -5,8 +5,12 @@ import Database from "./db.js";
 
 const { Strategy } = passportLocal;
 
-
-// taken from https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/digest
+/**
+ * Take in a message and hash it
+ * taken from https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/digest
+ * @param {string} message - message to be hashed
+ * @returns - a hexadecimal string representing the SHA-256 hash of "message"
+ */
 async function digestMessage(message) {
     const msgUint8 = new TextEncoder().encode(message); // encode as (utf-8) Uint8Array
     const hashBuffer = await crypto.subtle.digest("SHA-256", msgUint8); // hash the message
