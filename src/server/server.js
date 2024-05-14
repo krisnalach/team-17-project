@@ -18,7 +18,6 @@ const jsonHeaderFields = { "Content-Type": "application/json"};
 // Create Express app
 const app = express();
 const port = process.env.PORT || 3260;
-//const port = process.env.PORT || 3000;
 
 // Create session configuration
 const sessionConfig = {

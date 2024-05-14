@@ -1,0 +1,5 @@
+2024/05/14-11:28:54.799 7fd0 Recovering log #45
+2024/05/14-11:28:54.799 7fd0 Level-0 table #47: started
+2024/05/14-11:28:54.841 7fd0 Level-0 table #47: 237 bytes OK
+2024/05/14-11:28:54.846 7fd0 Delete type=0 #45
+2024/05/14-11:28:54.846 7fd0 Delete type=3 #43
