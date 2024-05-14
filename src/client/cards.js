@@ -45,7 +45,6 @@ let splitButton = document.getElementById("split");
 hitButton.addEventListener("click", playerHit);
 standButton.addEventListener("click", stand);
 doubleButton.addEventListener("click", doubleDown);
-splitButton.addEventListener("click", split);
 
 let score = 0;
 const username = await db.getUser();
@@ -224,13 +223,6 @@ function dealerHit() {
   dealerScoreHTML.textContent = calculateHandValue(dealerHand);
 }
 
-// TODO the split function allows the player to split their hand into two hands
-function split() {
-  // check if the player has two cards of the same rank
-  // if they do, split the hand into two hands
-  return false;
-}
-
 // the stand function runs the dealer's turn and then determines the winner
 function stand() {
   // dealer hits until their hand value is 17 or greater
@@ -268,7 +260,7 @@ function loseHeart() {
   else if (hearts === 1) {
     heart1.src = "images/PHeart-Empty.png";
   }
-  else if(hearts === 0){
+  else{
     gameOver();
   }
   hearts -= 1;
