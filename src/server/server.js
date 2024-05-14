@@ -77,7 +77,6 @@ app.post("/login", (req, res, next) => {
       // and tie signedIn check to session
       req.session.user = req.user;
       req.session.signedIn = true;
-      console.log(Object.keys(req.session));
       res.writeHead(200, jsonHeaderFields);
       res.end();
     }
@@ -112,14 +111,12 @@ app.post("/register", async (req, res) => {
  * @writes - redirects user upon successful logout to '/'
  */
 app.post("/logout", function (req, res, next) {
-  console.log(Object.keys(req.session));
   req.logout(function (err) {
     if (err) {
       console.log(err);
       return next(err);
     }
     // more jank - delete user tied to session
-    console.log(Object.keys(req.session));
     delete req.session.user;
     delete req.session.signedIn;
     res.redirect("/");
@@ -134,7 +131,6 @@ app.post("/logout", function (req, res, next) {
  *           401 if failed with associated error message
  */
 app.get("/getUserStats", async (req, res) => {
-  console.log(Object.keys(req.session));
   if (!isLoggedIn(req)) {
     res.writeHead(401, jsonHeaderFields);
     res.write(JSON.stringify({ message: "User not logged in" }));
