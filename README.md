@@ -3,33 +3,40 @@
 ## Installation instructions
 - Clone the repository onto your machine
 - Run `npm install` to install necessary dependencies
-- For milestone-02, run `npm run milestone-02`
-- The server should start on localhost:3000
+- For milestone-03, run `npm run start` or `npm start`
+- The server should be started on `localhost:3260`
 
-## Logging In
-- Only three usernames have log in capabilities, password input is not set up and therefore doesn't do anything
-- These three usernames are "john", "phil", and "stu", case sensitive
-- Logging in allows for the stats page to function
+## Registering / Logging In
+- Register an account by providing a username and a password
+- Log in to an existing account to have access to leaderboard updates or the statistics page
+- Usernames must be unique: duplicate usernames will be rejected
 
 ## Limitations
 - UI designs aren't fully fleshed out yet, but the general idea of how they'll look is there
-- There are errors thrown in the console purposefully during certain events (i.e. user not being logged in)
-- Game logic is not set up yet
-- The login feature is not robust and hasn't been tested yet with users that don't exist
-- Password feature is not implemented yet
+- The blackjack game is a bit buggy
+- With more time, we would:
+ - implement a match history feature
+ - implement more interesting user stats
+ - store game information
 
-## API Routes
-### Get
-- GetUserStats will extract the stats for current logged in user
-- GetLeaderboard will get the current leaderboard
-- GetCurrentUser will get the user that was logged in
-### Post
+## The Backend
+### The Database
+- The backend database stores:
+  - A leaderboard that holds username, score pairs
+  - User statistics tied to user information
+  - User login information tied to their username
+### Routes
+### GET
+- `/getUserStats` writes back the currently logged in user statistics object
+- `/getLeaderboard` writes back the leaderboard stored in the database
+- `/getCurrentUser` writes back the currently logged in user's username
+### POST
 - Login will log the user in and authenticate the user
 - Register will add a new user to the server
 - Log out will wipe the session for the current user
-### Put
+### PUT
 - updateLeaderboard will update a the leaderboard if the user ends their session with a top 5 score and change their score on the board or put them on there
 - updateUser will update the stats of a user at the end of their session
 - updateGame
-### Delete
+### DELETE
 - DeleteGame
