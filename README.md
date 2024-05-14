@@ -22,7 +22,7 @@
 ## The Backend
 ### The Database
 - The backend database stores:
-  - A leaderboard that holds username, score pairs
+  - A leaderboard that holds username, score pairs. The leaderboard is only updated upon game completion (reaching 0 hearts), and if a high score is achieved
   - User statistics tied to user information
   - User login information tied to their username
 ### Routes
@@ -31,12 +31,11 @@
 - `/getLeaderboard` writes back the leaderboard stored in the database
 - `/getCurrentUser` writes back the currently logged in user's username
 ### POST
-- Login will log the user in and authenticate the user
-- Register will add a new user to the server
-- Log out will wipe the session for the current user
+- `/login` logs in the user if their login attempt is valid and stores them in a session. Implemented using Passport.js
+- `/register` registers a user into the database with their username and (SHA-256 hashed) password
+- `/logout` logs out the currently logged in user and removes them from the session. Implemented using Passport.js
 ### PUT
-- updateLeaderboard will update a the leaderboard if the user ends their session with a top 5 score and change their score on the board or put them on there
-- updateUser will update the stats of a user at the end of their session
-- updateGame
+- `/updateLeaderboard` updates the leaderboard stored in the databse with the provided username and score
+- `/updateUser` updates the provided username's statistics with the provided stats object
 ### DELETE
-- DeleteGame
+- `/deleteUser` deletes the currently signed in user from the database completely
