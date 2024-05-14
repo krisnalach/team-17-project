@@ -249,9 +249,10 @@ const Database = async (dbname) => {
       }
     },
 
+
+    // testing function to print database contents
     test: async() => {
         const db = getDB();
-        console.log("he")
         const lb = await db.get("lb");
         const users = await db.get("users");
         const logins = await db.get("logins");
