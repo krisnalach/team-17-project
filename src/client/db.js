@@ -84,7 +84,7 @@ export async function updateUserStats(stats) {
     const currUser = await db.get("currUser");
     currUser.stats = stats;
     await db.put(currUser);
-  } catch(err) {
+  } catch (err) {
     console.error(err);
   }
 }
