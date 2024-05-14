@@ -1,6 +1,7 @@
 # BlitzJack - Team 17's Project
 
 ## Installation instructions
+- Install `Node.js`
 - Clone the repository onto your machine
 - Run `npm install` to install necessary dependencies
 - For milestone-03, run `npm run start` or `npm start`
@@ -31,9 +32,9 @@
 - `/getLeaderboard` writes back the leaderboard stored in the database
 - `/getCurrentUser` writes back the currently logged in user's username
 ### POST
-- `/login` logs in the user if their login attempt is valid and stores them in a session. Implemented using Passport.js
+- `/login` logs in the user if their login attempt is valid and stores them in a session. Implemented using `Passport.js`
 - `/register` registers a user into the database with their username and (SHA-256 hashed) password
-- `/logout` logs out the currently logged in user and removes them from the session. Implemented using Passport.js
+- `/logout` logs out the currently logged in user and removes them from the session. Implemented using `Passport.js`
 ### PUT
 - `/updateLeaderboard` updates the leaderboard stored in the databse with the provided username and score
 - `/updateUser` updates the provided username's statistics with the provided stats object
