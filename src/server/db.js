@@ -248,6 +248,16 @@ const Database = async (dbname) => {
         return { status: "error", message: err.message };
       }
     },
+
+    test: async() => {
+        const db = getDB();
+        console.log("he")
+        const lb = await db.get("lb");
+        const users = await db.get("users");
+        const logins = await db.get("logins");
+
+        return {lb: lb.data, users: users.data, logins: logins.data};
+    }
   };
   return obj;
 };

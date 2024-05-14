@@ -237,6 +237,15 @@ app.delete("/deleteAccount", async (req, res) => {
   res.end();
 });
 
+
+app.get("/test", async(req, res) => {
+    const db = await Database("blackjack");
+    const obj = await db.test();
+    console.log(obj.lb);
+    console.log(obj.users);
+    console.log(obj.logins);
+})
+
 app.listen(port, () => {
   console.log(`App now listening at http://localhost:${port}`);
 });
