@@ -215,8 +215,21 @@ app.put('/updateLeaderboard', async(req, res) => {
     res.end();
 });
 
-app.put('/updateGames', async(req, res) => {
+app.put('/updateUser', async(req, res) => {
+    const db = await Database("blackjack");
+    const {username, stats} = req.body;
+    console.log(username);
+    const userRet = await db.updateUser(username, stats);
+    if (userRet.status === "success") {
+        res.writeHead(200);
+    } else {
+        res.writeHead(409);
+    }
+    res.end();
+});
 
+app.put('/updateGames', async(req, res) => {
+    
 });
 
 app.delete('/deleteGame', async(req, res) => {
