@@ -113,8 +113,8 @@ loginButton.addEventListener("click", async (event) => {
   const password = passwordInput.value;
   const response = await fetch(`/login`, {
     method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({username, password}),
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username, password }),
     credentials: "include",
   });
   // check to see if login was successful
@@ -139,26 +139,25 @@ loginButton.addEventListener("click", async (event) => {
       const errMsg = await statRes.json();
       console.error(errMsg);
     }
-    
+
     // update page
     welcomeElem.innerHTML = `Welcome, ${user}!`;
     renderLogin(user);
     window.location.reload();
   }
-  
 });
 
 registerButton.addEventListener("click", async (event) => {
-    event.preventDefault();
-    const username = usernameInput.value;
-    const password = passwordInput.value;
-    if (username === "" || password === "") {
-      alert("Registration failed: Missing credentials");
-    } else {
+  event.preventDefault();
+  const username = usernameInput.value;
+  const password = passwordInput.value;
+  if (username === "" || password === "") {
+    alert("Registration failed: Missing credentials");
+  } else {
     const response = await fetch(`/register`, {
       method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({username, password}),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password }),
       credentials: "include",
     });
     if (response.ok) {
@@ -167,7 +166,7 @@ registerButton.addEventListener("click", async (event) => {
       alert(`Registration failed: Username is taken`);
     }
   }
-  });
+});
 
 // Add event listener for logout button
 logoutButton.addEventListener("click", async (event) => {
@@ -186,10 +185,10 @@ logoutButton.addEventListener("click", async (event) => {
 deleteAccButton.addEventListener("click", async (event) => {
   event.preventDefault();
   const username = user;
-  const response = await fetch("/deleteAccount",{
+  const response = await fetch("/deleteAccount", {
     method: "DELETE",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({username}),
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username }),
     credentials: "include",
   });
 
@@ -205,12 +204,10 @@ deleteAccButton.addEventListener("click", async (event) => {
     user = await db.logout();
     renderLogin(user);
     window.location.reload();
-  }
-  else {
+  } else {
     alert(msg);
   }
-  
-})
+});
 
 /**
  * Checks to see if the user's session exists in

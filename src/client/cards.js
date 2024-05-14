@@ -7,7 +7,7 @@ let ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
 let values = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, [1, 11]];
 
 // a heart variable for the player to keep track of how many hearts they have left
-let hearts = 5; 
+let hearts = 5;
 let heart1 = document.getElementById("heart1");
 let heart2 = document.getElementById("heart2");
 let heart3 = document.getElementById("heart3");
@@ -77,8 +77,7 @@ function newRound() {
   // if the player is out of hearts, end the game
   if (hearts === 0) {
     gameOver();
-  }
-  else {
+  } else {
     dealInitialHands();
     playerScoreHTML.textContent = calculateHandValue(playerHand);
     dealerScoreHTML.textContent = calculateHandValue(dealerHand);
@@ -87,8 +86,7 @@ function newRound() {
       if (calculateHandValue(dealerHand) === 21) {
         middleSpacerHTML.textContent = "Tie!";
         setTimeout(newRound, 3000);
-      }
-      else {
+      } else {
         score += 150;
         scoreHTML.textContent = "Score: " + String(score);
         middleSpacerHTML.textContent = "Blackjack! You Win!";
@@ -97,7 +95,7 @@ function newRound() {
       }
     }
   }
-}  
+}
 
 // the drawCard function returns the top card from the deck
 function drawCard() {
@@ -135,10 +133,16 @@ function dealInitialHands() {
 function discardHands() {
   discardedCards = discardedCards.concat(playerHand, dealerHand);
   // these while loops remove all the additional cards from the player and dealer, leaving us with the original 2
-  while (playerHTML.lastChild.id !== "playerCard1" && playerHTML.lastChild.id !== "playerCard2") {
+  while (
+    playerHTML.lastChild.id !== "playerCard1" &&
+    playerHTML.lastChild.id !== "playerCard2"
+  ) {
     playerHTML.removeChild(playerHTML.lastChild);
   }
-  while (dealerHTML.lastChild.id !== "dealerCard1" && dealerHTML.lastChild.id !== "dealerCard2") {
+  while (
+    dealerHTML.lastChild.id !== "dealerCard1" &&
+    dealerHTML.lastChild.id !== "dealerCard2"
+  ) {
     dealerHTML.removeChild(dealerHTML.lastChild);
   }
   playerHand = [];
@@ -158,14 +162,13 @@ function playerHit() {
     if (calculateHandValue(dealerHand) === 21) {
       middleSpacerHTML.textContent = "Tie!";
       setTimeout(newRound, 3000);
-    }
-    else {
+    } else {
       winRound();
     }
   }
   // checks if the player has busted
   if (calculateHandValue(playerHand) > 21) {
-    bustPlayer()
+    bustPlayer();
   }
 }
 
@@ -180,9 +183,8 @@ function doubleDown() {
   playerScoreHTML.textContent = calculateHandValue(playerHand);
   if (calculateHandValue(playerHand) > 21) {
     loseHeart(); // lose the additional heart
-    bustPlayer() // bust like normal and lose the other heart
-  }
-  else {
+    bustPlayer(); // bust like normal and lose the other heart
+  } else {
     doubleStand();
   }
 }
@@ -195,9 +197,8 @@ function doubleStand() {
   if (calculateHandValue(dealerHand) > 21) {
     score += 100; // extra 100 points for double down
     bustDealer();
-  }
-  else if (calculateHandValue(playerHand) > calculateHandValue(dealerHand)) {
-    score += 200; 
+  } else if (calculateHandValue(playerHand) > calculateHandValue(dealerHand)) {
+    score += 200;
     scoreHTML.textContent = "Score: " + String(score);
     middleSpacerHTML.textContent = "You Win! Double Points!";
     updateUser(1, 200);
@@ -239,8 +240,7 @@ function stand() {
   }
   if (calculateHandValue(dealerHand) > 21) {
     bustDealer();
-  }
-  else if (calculateHandValue(playerHand) > calculateHandValue(dealerHand)) {
+  } else if (calculateHandValue(playerHand) > calculateHandValue(dealerHand)) {
     winRound();
   } else if (calculateHandValue(playerHand) < calculateHandValue(dealerHand)) {
     loseHeart();
@@ -255,20 +255,15 @@ function stand() {
 function loseHeart() {
   if (hearts === 5) {
     heart5.src = "images/PHeart-Empty.png";
-  }
-  else if (hearts === 4) {
+  } else if (hearts === 4) {
     heart4.src = "images/PHeart-Empty.png";
-  }
-  else if (hearts === 3) {
+  } else if (hearts === 3) {
     heart3.src = "images/PHeart-Empty.png";
-  }
-  else if (hearts === 2) {
+  } else if (hearts === 2) {
     heart2.src = "images/PHeart-Empty.png";
-  }
-  else if (hearts === 1) {
+  } else if (hearts === 1) {
     heart1.src = "images/PHeart-Empty.png";
-  }
-  else if(hearts === 0){
+  } else if (hearts === 0) {
     gameOver();
   }
   hearts -= 1;
@@ -309,15 +304,14 @@ function loseRound() {
 }
 
 // the calculateHandValue function calculates the value of a hand of cards
-function calculateHandValue (hand) {
+function calculateHandValue(hand) {
   let value = 0;
   let aces = 0;
   for (let i = 0; i < hand.length; i++) {
     if (hand[i].rank === "A") {
       aces += 1;
       value += 11;
-    }
-    else {
+    } else {
       value += hand[i].value;
     }
   }
@@ -339,22 +333,22 @@ function gameOver() {
   middleSpacerHTML.appendChild(newGameButton);
   // TODO save the score to the server
   // deciding to go with .then() approach since most functions here are not async
-  if (username !== -1) { // only update leaderboard if user is logged in
-    fetch('/updateLeaderboard', {
+  if (username !== -1) {
+    // only update leaderboard if user is logged in
+    fetch("/updateLeaderboard", {
       method: "PUT",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({username, score}),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, score }),
       credentials: "include",
     })
-    .then(response => {
-      // dont need to do anything
-      console.log("Leaderboard successfully updated");
-    })
-    .catch(err => {
-      console.error(err);
-    });
+      .then((response) => {
+        // dont need to do anything
+        console.log("Leaderboard successfully updated");
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }
-
 }
 
 /**
@@ -368,21 +362,26 @@ function gameOver() {
 function updateUser(won, score) {
   // check to see if signed in
   if (username !== -1) {
-    db.getUserStats().then(stats => {
-      if (won) stats.wins += 1;
-      else stats.losses += 1;
-      stats.score += score;
-      stats.games_played += 1;
-      stats.winrate = stats.wins/stats.games_played;
-      db.updateUserStats(stats).then(response => {}).catch(err => console.error(err));
-      fetch('/updateUser', {
-        method: "PUT",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({username, stats}),
-        credentials: "include",
-      }).then(response => {}).catch(err => console.error(err));
-    })
-    .catch(err => console.error(err));
+    db.getUserStats()
+      .then((stats) => {
+        if (won) stats.wins += 1;
+        else stats.losses += 1;
+        stats.score += score;
+        stats.games_played += 1;
+        stats.winrate = stats.wins / stats.games_played;
+        db.updateUserStats(stats)
+          .then((response) => {})
+          .catch((err) => console.error(err));
+        fetch("/updateUser", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, stats }),
+          credentials: "include",
+        })
+          .then((response) => {})
+          .catch((err) => console.error(err));
+      })
+      .catch((err) => console.error(err));
   }
 }
 
