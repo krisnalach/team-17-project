@@ -22,7 +22,11 @@ export async function renderStats(element) {
 
       // Create element for numeric stat value
       const value = document.createElement("span");
-      value.textContent = userStats[stat];
+      if (typeof userStats[stat] === "number") {
+        value.textContent = userStats[stat].toFixed(2);
+      } else {
+        value.textContent = userStats[stat];
+      }
       value.classList.add("value");
 
       // Append label and value to the stat element

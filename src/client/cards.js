@@ -92,6 +92,7 @@ function newRound() {
         score += 150;
         scoreHTML.textContent = "Score: " + String(score);
         middleSpacerHTML.textContent = "Blackjack! You Win!";
+        updateUser(true, 150);
         setTimeout(newRound, 3000);
       }
     }
@@ -199,11 +200,13 @@ function doubleStand() {
     score += 200; 
     scoreHTML.textContent = "Score: " + String(score);
     middleSpacerHTML.textContent = "You Win! Double Points!";
+    updateUser(1, 200);
     setTimeout(newRound, 3000);
   } else if (calculateHandValue(playerHand) < calculateHandValue(dealerHand)) {
     loseHeart();
     loseHeart();
     middleSpacerHTML.textContent = "You Lose! Two Hearts Lost :(";
+    updateUser(false, 0);
     setTimeout(newRound, 3000);
   } else {
     newRound();
@@ -276,6 +279,7 @@ function bustPlayer() {
   scoreHTML.textContent = "Score: " + String(score);
   middleSpacerHTML.textContent = "You Busted! You Lose!";
   loseHeart();
+  updateUser(false, 0);
   setTimeout(newRound, 3000);
 }
 
@@ -284,6 +288,7 @@ function bustDealer() {
   score += 100;
   scoreHTML.textContent = "Score: " + String(score);
   middleSpacerHTML.textContent = "Dealer Busted! You Win!";
+  updateUser(true, 100);
   setTimeout(newRound, 3000);
 }
 
@@ -292,12 +297,14 @@ function winRound() {
   score += 100;
   scoreHTML.textContent = "Score: " + String(score);
   middleSpacerHTML.textContent = "You Win!";
+  updateUser(true, 100);
   setTimeout(newRound, 3000);
 }
 
 // the loseRound function has the player lose the round
 function loseRound() {
   middleSpacerHTML.textContent = "You Lose!";
+  updateUser(false, 0);
   setTimeout(newRound, 3000);
 }
 
@@ -341,14 +348,42 @@ function gameOver() {
     })
     .then(response => {
       // dont need to do anything
-      console.log("leaderboard successfully updated");
+      console.log("Leaderboard successfully updated");
     })
     .catch(err => {
       console.error(err);
     });
   }
-  
-  
+
+}
+
+/**
+ * Update the user's stats both in localstorage
+ * and on the server's db
+ * NOTE: used .then() approach because turning every function
+ * async seemed tedious
+ * @param {boolean} won - T/F whether user won or lose
+ * @param {int} score - score value to add to user stats
+ */
+function updateUser(won, score) {
+  // check to see if signed in
+  if (username !== -1) {
+    db.getUserStats().then(stats => {
+      if (won) stats.wins += 1;
+      else stats.losses += 1;
+      stats.score += score;
+      stats.games_played += 1;
+      stats.winrate = stats.wins/stats.games_played;
+      db.updateUserStats(stats).then(response => {}).catch(err => console.error(err));
+      fetch('/updateUser', {
+        method: "PUT",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({username, stats}),
+        credentials: "include",
+      }).then(response => {}).catch(err => console.error(err));
+    })
+    .catch(err => console.error(err));
+  }
 }
 
 // the newGame function resets the game state

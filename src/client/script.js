@@ -17,6 +17,9 @@ const welcomeElem = document.getElementById("welcome");
 // register elements
 const registerButton = document.getElementById("register");
 
+// delete account elements
+const deleteAccButton = document.getElementById("delete");
+
 // stats view elements
 const loggedInStats = document.getElementById("logged-in");
 const loggedOutStats = document.getElementById("logged-out");
@@ -115,12 +118,10 @@ loginButton.addEventListener("click", async (event) => {
     credentials: "include",
   });
   // check to see if login was successful
-  //if (response.status !== 200) {
-    if (!response.ok) {
+  if (!response.ok) {
     // reject login
-    //const msg = await response.json();
-    //alert(`Login attempt failed: ${msg.message}`);
-    alert(`Login attempt failed: ` + response.status);
+    const msg = await response.json();
+    alert(`Login attempt failed: ${msg.message}`);
   } else {
     // login successful, continue as normal
     // update user variable
@@ -131,8 +132,13 @@ loginButton.addEventListener("click", async (event) => {
       method: "GET",
       credentials: "include",
     });
-    const stats = await statRes.json();
-    await db.login(user, stats);
+    if (statRes.ok) {
+      const stats = await statRes.json();
+      await db.login(user, stats);
+    } else {
+      const errMsg = await statRes.json();
+      console.error(errMsg);
+    }
     
     // update page
     welcomeElem.innerHTML = `Welcome, ${user}!`;
@@ -142,23 +148,25 @@ loginButton.addEventListener("click", async (event) => {
   
 });
 
-  registerButton.addEventListener("click", async (event) => {
+registerButton.addEventListener("click", async (event) => {
     event.preventDefault();
     const username = usernameInput.value;
     const password = passwordInput.value;
+    if (username === "" || password === "") {
+      alert("Registration failed: Missing credentials");
+    } else {
     const response = await fetch(`/register`, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({username, password}),
       credentials: "include",
     });
-    if (response.status === 200) {
+    if (response.ok) {
       alert(`Registration succeeded: Account ${username} has been created`);
-      //alert(`Registration failed: Username is taken`); if !==
     } else {
-      //alert(`Registration succeeded: Account ${username} has been created`);
-      alert(`Registration failed: ` + response.status);
+      alert(`Registration failed: Username is taken`);
     }
+  }
   });
 
 // Add event listener for logout button
@@ -175,6 +183,35 @@ logoutButton.addEventListener("click", async (event) => {
   window.location.reload();
 });
 
+deleteAccButton.addEventListener("click", async (event) => {
+  event.preventDefault();
+  const username = user;
+  const response = await fetch("/deleteAccount",{
+    method: "DELETE",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({username}),
+    credentials: "include",
+  });
+
+  //also need to logout user in database
+  const logOutResponse = await fetch("/logout", {
+    method: "POST",
+    credentials: "include",
+  });
+
+  const msg = await response.text();
+  if (response.ok) {
+    alert(msg);
+    user = await db.logout();
+    renderLogin(user);
+    window.location.reload();
+  }
+  else {
+    alert(msg);
+  }
+  
+})
+
 /**
  * Checks to see if the user's session exists in
  * local storage. If so, render the logout UI, if not,
@@ -188,6 +225,8 @@ function renderLogin(user) {
     passwordLabel.style.display = "block";
     passwordInput.style.display = "block";
     loginButton.style.display = "block";
+    registerButton.style.display = "block";
+    deleteAccButton.style.display = "none";
 
     welcomeElem.innerHTML = "Log In";
     logoutButton.style.display = "none";
@@ -197,6 +236,8 @@ function renderLogin(user) {
     passwordLabel.style.display = "none";
     passwordInput.style.display = "none";
     loginButton.style.display = "none";
+    registerButton.style.display = "none";
+    deleteAccButton.style.display = "block";
 
     welcomeElem.innerHTML = `Welcome, ${user}!`;
     logoutButton.style.display = "block";

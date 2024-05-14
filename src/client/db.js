@@ -1,24 +1,11 @@
 let db = null;
 db = new PouchDB("mydb");
 
-const prepop_lb = [
-  { name: "John", score: 100 },
-  { name: "Phil", score: 90 },
-  { name: "Joe", score: 80 },
-  { name: "Mario", score: 70 },
-  { name: "Stu", score: 60 },
-];
-
 /**
  * Initialize the database
  */
 async function init() {
   try {
-    // pre-populate with leaderboard
-    await db.put({
-      _id: "lb",
-      leaderboard: prepop_lb,
-    });
     // set initial page to home
     await db.put({
       _id: "currView",
@@ -60,37 +47,6 @@ export async function getCurrView() {
 }
 
 /**
- * (INFO) This should probably be done automatically
- * on new account creation / first game played
- * @param {*} obj
- */
-export async function addToLeaderboard(obj) {
-  try {
-    let lb = await db.get("lb");
-    lb["leaderboard"].push(obj);
-    await db.put({
-      _id: "lb",
-      leaderboard: lb,
-    });
-  } catch (err) {
-    console.error(err);
-  }
-}
-
-/**
- * Get the leaderboard information from the database
- * @returns - the leaderboard as an array of objects
- */
-export async function getLeaderboard() {
-  try {
-    const response = await db.get("lb");
-    return response["leaderboard"];
-  } catch (err) {
-    console.error(err);
-  }
-}
-
-/**
  * Get the statistics of the currently logged in user
  * @returns - the user's stats, an object with fields:
  *            "winrate", "highest_bid", "all_in_cnt", "blackjacks" SUBJECT TO CHANGE
@@ -115,6 +71,21 @@ export async function getUser() {
     return response["name"];
   } catch (err) {
     return -1;
+  }
+}
+
+/**
+ * Updates the stats of the currently signed in user.
+ * Assumes that it is only called when a user is signed in
+ * @param {obj} stats - stats object to be assigned to a user
+ */
+export async function updateUserStats(stats) {
+  try {
+    const currUser = await db.get("currUser");
+    currUser.stats = stats;
+    await db.put(currUser);
+  } catch(err) {
+    console.error(err);
   }
 }
 
@@ -153,9 +124,8 @@ export async function logout() {
 // Prevent re-initializing the mock database
 try {
   // See if it is already pre-populated
-  const response = await db.get("lb");
+  const response = await db.get("currView");
 } catch (err) {
   // If not, initialize it
   await init();
-  console.error(err);
 }

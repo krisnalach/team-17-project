@@ -6,7 +6,7 @@ const leaderboardRes = await fetch("/getLeaderboard", {
 let leaderboard = [];
 
 // if fetch fails, just display an empty array
-if (leaderboardRes.status === 200) {
+if (leaderboardRes.ok) {
   leaderboard = await leaderboardRes.json();
 }
 

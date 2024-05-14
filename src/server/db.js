@@ -14,6 +14,7 @@ const initdb = async (dbname) => {
     }
 
     // check to see if game list exists. If not, create it as empty array
+    // currently not used
     try {
         const games = await db.get("games");
     } catch (err) {
@@ -195,6 +196,30 @@ const Database = async (dbname) => {
                 return {status: "error", message: err.message};
             }
         },
+
+        deleteAccount: async(username) => {
+            try {
+                const db = getDB();
+                const lb = await db.get("lb");
+                const logins = await db.get("logins");
+                const users = await db.get("users");
+
+                // purging
+                lb.data = lb.data.filter(o => o.name !== username);
+                delete logins.data.username;
+                delete users.data.username;
+
+                await db.put(lb);
+                await db.put(logins);
+                await db.put(users);
+
+                await db.close();
+                return {status: "success"};
+
+            } catch (err) {
+                return {status: "error", message: err.message};
+            }
+        }
 
 
     };

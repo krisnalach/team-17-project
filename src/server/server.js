@@ -27,25 +27,6 @@ const sessionConfig = {
     saveUninitialized: false,
 }
 
-
-// Database operations
-
-/**
- * Get the user stats object of a user from the database
- * @param {string} username - username identifier to find userStats 
- * @returns - userStats object of user with name "username"
- */
-async function getUserStats(username) {
-    const db = await Database("blackjack");
-    const userStats = await db.getUser(username);
-    console.log(userStats);
-    if (userStats.status === "error") {
-        return {failed: true}; //TODO: change this
-    } else {
-        return userStats.data;
-    }
-}
-
 app.use(expressSession(sessionConfig));
 app.use(logger("dev"));
 app.use(express.urlencoded({extended: true}));
@@ -118,17 +99,13 @@ app.post(
         const db = await Database("blackjack");
         const {username, password} = req.body;
         // encrypt password
-       try{ const hash = await auth.digest(password);
+        const hash = await auth.digest(password);
         const addUserRet = await db.addUser(username, hash);
         if (addUserRet.status === "success") {
             res.writeHead(200, jsonHeaderFields);
         } else {
-            res.writeHead(409, {"Content-type": "text/html"});
+            res.writeHead(409, {"Content-type": "text/plain"});
             res.write(addUserRet.message);
-        }}  catch(error){
-            console.error('Error during registration:', error);
-            res.writeHead(500, { "Content-type": "text/html" });
-            res.write('Internal Server Error');
         }
         res.end();
     }
@@ -210,7 +187,6 @@ app.get('/getCurrentUser', async (req, res) => {
 app.put('/updateLeaderboard', async(req, res) => {
     const db = await Database("blackjack");
     const {username, score} = req.body;
-    console.log(username);
     const lbRet = await db.updateLeaderboard(username, score);
     if (lbRet.status === "success") {
         res.writeHead(200);
@@ -223,7 +199,6 @@ app.put('/updateLeaderboard', async(req, res) => {
 app.put('/updateUser', async(req, res) => {
     const db = await Database("blackjack");
     const {username, stats} = req.body;
-    console.log(username);
     const userRet = await db.updateUser(username, stats);
     if (userRet.status === "success") {
         res.writeHead(200);
@@ -233,12 +208,18 @@ app.put('/updateUser', async(req, res) => {
     res.end();
 });
 
-app.put('/updateGames', async(req, res) => {
-    
-});
-
-app.delete('/deleteGame', async(req, res) => {
-
+app.delete('/deleteAccount', async(req, res) => {
+    const db = await Database("blackjack");
+    const {username} = req.body;
+    const ret = await db.deleteAccount(username);
+    if (ret.status === "success") {
+        res.writeHead(200, {"Content-Type": "text/plain"});
+        res.write("Account successfully deleted");
+    } else {
+        res.writeHead(401, {"Content-Type": "text/plain"});
+        res.write(`Failed to delete account: ${ret.message}`);
+    }
+    res.end();
 });
 
 
