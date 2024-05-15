@@ -235,8 +235,8 @@ const Database = async (dbname) => {
 
         // purging
         lb.data = lb.data.filter((o) => o.name !== username);
-        delete logins.data.username;
-        delete users.data.username;
+        delete logins.data[username];
+        delete users.data[username];
 
         await db.put(lb);
         await db.put(logins);
