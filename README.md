@@ -24,9 +24,9 @@ comments.
 - UI designs aren't fully fleshed out yet, but the general idea of how they'll look is there
 - The blackjack game is a bit buggy
 - With more time, we would:
- - implement a match history feature
- - implement more interesting user stats
- - store game information
+ - Implement a match history feature
+ - Implement more interesting user stats
+ - Store game information
 
 ## The Backend
 ### The Database
