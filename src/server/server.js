@@ -32,12 +32,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "client")));
-app.use(
-  cors({
-    origin: "http//localhost:3260",
-    credentials: true,
-  }),
-);
+
+const corsOptions = {
+    origin: 'http://127.0.0.1:3260',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content=Type', 'Authorization'],
+  }
+app.use(cors(corsOptions));
 
 auth.configure(app);
 
