@@ -1,9 +1,11 @@
 # BlitzJack - Team 17's Project
 
 Note from Krisna: This project seemingly broke by itself.
-It used to be able to run on all our machines, but now it only runs on mine.
-For now, we will roll back to a version where things worked.
-We suspect this issue may be with Windows or with CORS.
+It works on Mac, but does not work on Windows, when we didn't
+touch any code that should have broken it.
+It was working on Windows a couple hours prior before breaking.
+We will roll back some code, so the current code may have unnecessary
+comments.
 
 ## Installation instructions
 - Install `Node.js`
