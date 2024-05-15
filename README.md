@@ -1,5 +1,10 @@
 # BlitzJack - Team 17's Project
 
+Note from Krisna: This project seemingly broke by itself.
+It used to be able to run on all our machines, but now it only runs on mine.
+For now, we will roll back to a version where things worked.
+We suspect this issue may be with Windows or with CORS.
+
 ## Installation instructions
 - Install `Node.js`
 - Clone the repository onto your machine
