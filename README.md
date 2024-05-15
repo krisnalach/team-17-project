@@ -1,11 +1,14 @@
 # BlitzJack - Team 17's Project
 
+## IMPORTANT
 Note from Krisna: This project seemingly broke by itself.
 It works on Mac, but does not work on Windows, when we didn't
 touch any code that should have broken it.
 It was working on Windows a couple hours prior before breaking.
-We will roll back some code, so the current code may have unnecessary
-comments.
+If you happen to test this code on Windows, please use the code on
+the "windows" branch. Since this code comes from a prior point
+in production, it isn't as clean as the code on the main branch.
+For evaluation purposes, the code on main branch should be considered.
 
 ## Installation instructions
 - Install `Node.js`
